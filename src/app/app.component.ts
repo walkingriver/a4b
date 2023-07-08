@@ -12,12 +12,4 @@ import { LoadingComponent } from './chapter-04/loading/loading.component';
 })
 export class AppComponent {
   title = 'Angular-for-Business';
-  isLoading = false;
-
-  load() {
-    this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2500);
-  }
 }
