@@ -1,0 +1,25 @@
+<h1>Chapter 5</h1>
+<h2>Resolve or Die</h2>
+<p>
+  This demo shows various options for handling errors when loading data. Click
+  the button to simulate a request. The loading component will be shown for
+  about 2.5 seconds, and then will error out.
+</p>
+<button (click)="getData()" [disabled]="isLoading">Get Data</button>
+<div class="container">
+  <div class="box">
+    <app-error [errorText]="errorText"></app-error>
+    <div class="caption">Resolver w/Error Page</div>
+  </div>
+  <div class="box">
+    <app-loading-wrapper
+      [isLoading]="isLoading"
+      [errorText]="errorText"
+    ></app-loading-wrapper>
+    <div class="caption">Loading Indicator</div>
+  </div>
+  <div class="box">
+    <!-- Insert the third component here -->
+    <div class="caption">Skeleton Text</div>
+  </div>
+</div>

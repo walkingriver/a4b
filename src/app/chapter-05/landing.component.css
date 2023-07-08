@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.box {
+  flex: 1 0 30%; /* grow, shrink, base width */
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 20px;
+  min-height: 200px; /* you can adjust this as per your needs */
+  position: relative; /* added this line to position the caption relative to the box */
+}
+
+.caption {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -30px; /* adjust this value as per your needs */
+}

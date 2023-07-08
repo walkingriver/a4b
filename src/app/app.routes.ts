@@ -9,9 +9,7 @@ export const routes: Routes = [
   {
     path: 'chapter-05',
     loadComponent: () =>
-      import('./chapter-05/loading-example.component').then(
-        (m) => m.LoadingExampleComponent
-      ),
+      import('./chapter-05/landing.component').then((m) => m.LandingComponent),
   },
   // {
   //   path: 'error',
