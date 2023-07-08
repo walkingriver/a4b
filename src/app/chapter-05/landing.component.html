@@ -19,7 +19,10 @@
     <div class="caption">Loading Indicator</div>
   </div>
   <div class="box">
-    <!-- Insert the third component here -->
+    <app-skeleton
+      [errorText]="errorText"
+      [isLoading]="isLoading"
+    ></app-skeleton>
     <div class="caption">Skeleton Text</div>
   </div>
 </div>

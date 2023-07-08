@@ -2,10 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorComponent } from './error/error.component';
 import { LoadingWrapperComponent } from './loading/loading-wrapper.component';
+import { SkeletonComponent } from './skeleton/skeleton';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ErrorComponent, LoadingWrapperComponent],
+  imports: [
+    CommonModule,
+    ErrorComponent,
+    LoadingWrapperComponent,
+    SkeletonComponent,
+  ],
   templateUrl: './landing.component.html',
   styleUrls: ['landing.component.css'],
 })
