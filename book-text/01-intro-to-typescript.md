@@ -12,7 +12,7 @@ You can follow Mike on [Twitter: @walkingriver](https://twitter.com/walkingriver
 
 # Quick Introduction to TypeScript
 
-_You will probably need to introduce coworkers to TypeScript. Here's how you can do that._
+You will probably need to introduce coworkers to TypeScript. Here's how you can do that.
 
 At my day job, I was asked by my leadership to provide an introduction to TypeScript, Angular, and Node to a group of experienced software developers. Many of these folks are "Senior" or higher, a few with more years of experience than I have. Despite their combined 200+ years of development, they have not used these technologies. This chapter is what I showed them: An Introduction to TypeScript for Experienced Developers.
 
@@ -20,7 +20,7 @@ At my day job, I was asked by my leadership to provide an introduction to TypeSc
 
 To help internalize the concepts you are about to see, consider opening a browser to [http://www.typescriptlang.org/play/](http://www.typescriptlang.org/play/). This website lets you enter TypeScript in one text area and see the corresponding JavaScript instantly. It also provides helpful feedback in the case of TypeScript errors. I find it very handy to understand what's going on during the TypeScript transpilation process.
 
-# Types!
+## Types!
 
 The first thing to understand about TypeScript is that -- surprise -- it has types. It supports the basic types you would expect, such as strings and numbers. You can supply the type explicitly, as in the top examples. Or you may omit the type and supply a value instead. If you provide a variable with a value, then TypeScript will infer the type automatically.
 
@@ -42,7 +42,7 @@ let octal = 0o744;
 
 Don't be fooled, however. Type inference still means the variable has a type; you simply did not need to set it. Trying to assign a number to a string will still be an error.
 
-# Strings
+## Strings
 
 TypeScript includes support for strings. You can use either single- or double-quotes for string constants, but you should be consistent. Many teams prefer one or the other and use tools to enforce that preference.
 
@@ -58,15 +58,15 @@ I'll be ${ age + 1 } years old next month.`;
 
 console.log(sentence);
 
-// Outputs:
+// Output:
 "Hello, my name is Bob Bobbington.
 
 I'll be 38 years old next month."
 ```
 
-It is interesting to see how a template string is represented in modern JavaScript: it's the same thing! With older versions of JavaScript it would have been converted into an old-fashioned string assignment with the expected concatenations.
+It is interesting to see how a template string is represented in modern JavaScript: it’s the same thing! With older versions of JavaScript it would have been converted into an old-fashioned string assignment with the expected concatenations.
 
-# Arrays
+## Arrays
 
 TypeScript supports arrays. Here we are creating list as an array of numbers, as indicated by the square brackets following the type. This was not necessary, of course, as the value on the right side of the equal sign clearly indicates that it is an array of numbers. Most of the time, you only want to set the type explicitly if you are not also providing a value at the same time.
 
@@ -75,11 +75,9 @@ let list: number[] = [1, 2, 3];
 let list = [1, 2, 3];
 ```
 
-# Enums
+## Enums
 
-Enumerations, or Enums, allow you to provide a set of human-readable values, which represent the only legal values a variable can contain. In this case, I have defined an enum named Color, which contains three values: Red, Green, and Blue. A constant or variable of this type is only allowed to take on one of those three values. As you can see, to use the value on the right side of an assignment, you need to specify the Enum name, followed by a dot and then the enum value.
-
-Attempting to set a non-existent value is an error.
+Enumerations, or Enums, allow you to provide a set of human-readable values, which represent the only legal values a variable can contain. In this case, I have defined an enum named Color, which contains three values: Red, Green, and Blue. A constant or variable of this type is only allowed to take on one of those three values. As you can see, to use the value on the right side of an assignment, you need to specify the Enum name, followed by a dot and then the enum value. Attempting to set a non-existent value is an error.
 
 ```typescript
 enum Color {
@@ -88,10 +86,11 @@ enum Color {
   Blue,
 }
 const green: Color = Color.Green;
+
 const purple = Color.Purple; // Error!
 ```
 
-# String Literal Types
+## String Literal Types
 
 String literal types in TypeScript allow you to specify a type that can only have a certain set of specified string values. This provides a way to define a type that can only be one of a few different strings. It's akin to an enum, but for strings. The syntax is simple: you define a type to be equal to one or more string literals, separated by the pipe character (`|`).
 
@@ -105,9 +104,7 @@ type Fruit = "Apple" | "Banana" | "Cherry";
 let myFruit: Fruit;
 
 myFruit = "Apple"; // This is valid
-
 myFruit = "Banana"; // This is also valid
-
 myFruit = "Pear"; // Error! 'Pear' is not assignable to type 'Fruit'
 ```
 
@@ -121,9 +118,7 @@ function move(direction: Direction) {
 }
 
 move("Up"); // This is valid
-
 move("Down"); // This is also valid
-
 move("North"); // Error! Argument of type '"North"' is not assignable to parameter of type 'Direction'
 ```
 
@@ -151,11 +146,9 @@ export class AppComponent {
 
 In this case, the `status` property is a string literal type that could be 'Loading', 'Success', or 'Error'. The value of the `status` property is directly usable in the template, which simplifies the code compared to using an enum.
 
-# Interfaces
+## Interfaces
 
-Interfaces are supported as a pure TypeScript construct, and do not compile to any sort of JavaScript whatsoever. Go ahead and enter an interface definition into the TypeScript playground.
-
-Don't let that fool you into thinking that they aren't useful.
+Interfaces are supported as a pure TypeScript construct, and do not compile to any sort of JavaScript whatsoever. Go ahead and enter an interface definition into the TypeScript playground. Don't let that fool you into thinking that they aren't useful.
 
 An interface can be used to enforce the shape of data being passed into a function, or to help when initializing a strongly typed object from an object literal. The interface defined here consists of four string values and requires that any object defined as a Member contain an email address, a first name, and a last name. The phone number is optional, denoted by the question mark at the end of the field name.
 
@@ -170,7 +163,7 @@ interface Member {
 }
 ```
 
-# Object and Array Literals
+## Object and Array Literals
 
 For example, imagine we want to initialize an array of `Member` objects. Specifying the type explicitly as `Member[]` will let the TypeScript compiler know to check that every object literal provided matches the `Member` interface definition. Notice that I am not providing a phone number, as that field was marked as optional in the interface.
 
@@ -185,7 +178,7 @@ const allMembers: Member[] = [
 
 Had `Member` been defined as a class, we would need to use its constructor to define new `Member` objects, which would require more code, and end up a lot less readable than this method.
 
-# Classes
+## Classes in TypeScript
 
 TypeScript also provides concrete classes. Here is a hypothetical class implementation of that same `Member` interface. As you can see, it is a lot more code, and in no way is it any more readable than simply using the interface.
 
@@ -205,11 +198,9 @@ class MemberImpl implements Member {
 }
 ```
 
-My general recommendation is not to use a class unless and until you have code that needs to be added to it. I would argue even then that you think twice before adding code to a data object.
+My general recommendation is not to use a class unless and until you have code that needs to be added to it. I would argue even then that you think twice before adding code to a data object. Code such as validation should be done in a separate utility class. Leave your data objects clean, but that is a topic for another day.
 
-Code such as validation should be done in a separate utility class. Leave your data objects clean, but that is a topic for another day.
-
-# Generics
+## Generics in TypeScript
 
 Like many other modern languages, TypeScript supports Generics. This allows you to create common code that operates the same, regardless of the type passed to it. Illustrated here, we show a potential interface representing a stack of objects, consisting of three functions: `pop`, `push`, and `length`.
 
@@ -221,19 +212,18 @@ interface Stack<T> {
 }
 ```
 
-Notice the angle brackets containing a single `T` in the interface definition. This declares the interface as being a generic, with `T` representing the compile-time type. Using the `T` is a common convention, but it can be any unused identifier. The function `pop()` returns a single object of that type; `push()` accepts an item parameter of the same type. The `length()` function returns a single number.
+Notice the angle brackets containing a single `T` in the interface definition. This declares the interface as being a generic, with `T` representing the compile-time type. Using the `T` is a common convention, but it can be any unused identifier. The function `pop()` returns a single object of that type; `push()` accepts an item parameter of the same type. The `length()` function returns a single number.
 
-Below you can see the creation of two variables of type `Stack`, each passing a different type. As you may guess, you cannot pass a parameter of the wrong type to any of its functions.
+Below you can see the creation of two variables of type `Stack`, each passing a different type. As you may guess, you cannot pass a parameter of the wrong type to any of its functions.
 
 ```typescript
 let numbers: Stack<number>;
 let names: Stack<string>;
-
 names.push("Mike"); // OK
 names.push(5); // Error
 ```
 
-# Arrow Functions
+## Arrow Functions in TypeScript
 
 TypeScript supports arrow functions, which can be used in place of the anonymous functions you may be used to. In the examples shown here, we are calling the window's `setTimeout` function to delay for five seconds, and then show an alert.
 
@@ -253,9 +243,40 @@ window.ondblclick = (ev: MouseEvent) => {
 };
 ```
 
-At first glance, you are probably wondering what the big deal is. We removed the keyword `function` and added an equal sign and a greater-than sign (that is the arrow). This yields a grand total savings of three characters, so why bother, right?
+At first glance, you are probably wondering what the big deal is. We removed the keyword `function` and added an equal sign and a greater-than sign (that is the arrow). This yields a grand total savings of three characters, so why bother, right?
 
-In my mind, the most important aspect of arrow functions is the fact that the anonymous function to the right of the arrow does NOT redefine the `this` variable. If you've ever been bitten by JavaScript redefining `this` inside your functions, you will appreciate that behavior. Now you can write event handlers inside of a class, and still refer to class variables properly, simply by referring to them with the `this` object inside your event handler arrow function.
+In my mind, the most important aspect of arrow functions is the fact that the anonymous function to the right of the arrow does NOT redefine the `this` variable. If you've ever been bitten by JavaScript redefining `this` inside your functions, you will appreciate that behavior. Now you can write event handlers inside of a class, and still refer to class variables properly, simply by referring to them with the `this` object inside your event handler arrow function.
+
+## Promises in TypeScript
+
+TypeScript supports promises, so you do not need to rely on an external library such as Bluebird.
+
+A Promise is a guarantee that a function will complete at some unknown time in the future. The classic example of this is an HTTP call. When you make an HTTP request, you are waiting for the remote server to return data to you. If you wait for that reply, your code is stuck and cannot do anything else, including responding to user interaction. Because of that, many asynchronous functions return a promise instead of the actual result. When the function finally does complete, the promise is said to "resolve." If there is an error, the promise is said to "reject." The way you handle that in code is straightforward, but odd if you haven't seen it before.
+
+```typescript
+function getMyIpAddress(): Promise<string> {
+  return fetch("https://api.ipify.org/?format=json")
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+}
+
+getMyIpAddress()
+  .then((ip) => console.log(`Your IP address is: ${JSON.stringify(ip)}`))
+  .catch((error) => console.log(error));
+```
+
+Here we see a simple implementation of a function to retrieve the public facing IP address of the browser in which it is running. Notice we are combining multiple concepts here. The function returns a promise of type `string`. The calling function calls `fetch`, which also returns a promise. However, it also calls two more functions on that returned promise. The `then` function accepts a function to be called when the promise itself has resolved. In this example, I am passing an arrow function that converts the response to `json` and returns that value. I am using a shortcut here in that if an arrow function only returns the results of a single expression, you can omit both the `return` keyword and the semi-colon.
+
+Inside the `then` function, I’m simply logging the response object, which I have named `ip` in this case. You can do that with arrow functions. The signature only specifies the number (and sometimes the types) of the parameters, but you can name them anything you want. Notice also that I’m calling `JSON.stringify(ip)` to convert the `ip` object into text that can be read. Otherwise, the output would be simply be `[object object]`, which doesn’t help anyone.
+
+The `then` function itself returns a promise, which I use to call its `catch` function. `catch` also accepts a function to be called in case of an error. Here I am providing another arrow function, which accepts the error object and logs it.
+
+Essentially, what is happening here is that the URL provided is requested. At some point in the future, one of two things will happen:
+
+1. Either the HTTP call succeeds, at which point it is "resolved", and then function passed to `then()` is called.
+2. Or the HTTP call fails, the promise is "rejected", and the function passed to `catch()` is called.
+
+Finally, notice also that the `getMyIpAddress()` function itself returns a promise, so calling it will look very similar. This is a common pattern you will see repeated often in TypeScript.
 
 # Promises - async/await
 
@@ -302,7 +323,7 @@ Using `async` and `await` is wonderful in that your code looks more traditio
 
 When are values equal? The answer may surprise you. While not specific to TypeScript, this topic has bitten many new JavaScript and TypeScript developers. Consider the following example.
 
-```javascript
+```typescript
 console.log("1" == 1); // true
 console.log("" == 0); // true
 console.log("1" == [1]); // true
@@ -312,7 +333,7 @@ If you expected those all to be false, then this explanation is for you. If you 
 
 The problem is that JavaScript will coerce from one type to another to make the comparison, even if that is not what you want or expect. The solution is to use `===` instead of `==`, which says not to use coercion. Thus, each of the following lines return the expected value of false.
 
-```javascript
+```typescript
 console.log("1" === 1); // false
 console.log("" === 0); // false
 console.log("1" === [1]); // false
@@ -320,13 +341,13 @@ console.log("1" === [1]); // false
 
 It is recommended that you use `===` for comparisons, and most teams will use a tool to ensure it.
 
-# What About var?
+# What About var?
 
 You may have noticed that I did not use the `var` keyword in any of my examples. TypeScript, along with more recent versions of JavaScript, introduce two new ways of declaring variables (and constants), respectively, `let` and `const`.
 
 The important difference to note is that objects declared with `var` are "function-scoped", while those declared with `let` are "block scoped." Consider this example.
 
-```javascript
+```typescript
 for (var i = 0; i < 100; i++) {
   if (i % 3 === 0) {
     console.log("FIZZ");
@@ -338,6 +359,7 @@ for (var i = 0; i < 100; i++) {
     console.log(i);
   }
 }
+
 console.log(i); // 100
 ```
 
@@ -347,7 +369,7 @@ Had we used `let` instead of `var`, the generated JavaScript will be identica
 
 The other new keyword, `const`, works exactly like `let`, in that the object defined will be block-scoped. However, with `const` you must provide a value. Further, once declared, its value can never be changed.
 
-```javascript
+```typescript
 const myName = "Mike";
 myName = "Bob"; // Error - cannot redefine
 ```
@@ -356,29 +378,33 @@ This rule applies only to the named object, and not any of its members (in the c
 
 ```typescript
 const mike: Member = { email: "1234@company.com", firstName: "Mike", lastName: "Smith" };
-mike.email = "mike"; // These are fine
+mike.email = "mike";
+
+// These are fine
 const allMembers: Member[] = [];
-allMembers.push(mike); // Errors - may not redefine constants
+allMembers.push(mike);
+
+// Errors - may not redefine constants
 allMembers = [];
 mike = { email: "2345@company.com", firstName: "Bob", lastName: "Johnson" };
 ```
 
-# Summary
+## Summary
 
 As we've explored in this chapter, TypeScript offers a rich and robust set of features that enhance the JavaScript development experience, ensuring type safety and facilitating more reliable, maintainable code. From simple Types, Arrays, Enums, Interfaces, classes, to String Literal Types, TypeScript provides us with the tools to write clear, self-documenting code, where entities and their expected behaviors are clearly defined.
 
-We've only just scratched the surface of what TypeScript can do. With its other features like Generics, Decorators, and advanced type manipulation capabilities such as Mapped Types and Conditional Types, TypeScript has the power to revolutionize how you write JavaScript code.
+### Digging Deeper into TypeScript
 
-## TypeScript's Compatibility with JavaScript
+We've only just scratched the surface of what TypeScript can do. With its other features like Generics, Decorators, and advanced type manipulation capabilities such as Mapped Types and Conditional Types, TypeScript has the power to revolutionize how you write JavaScript code.
 
 Moreover, TypeScript's compatibility with JavaScript means that you can start benefiting from it at your own pace. You can start by annotating existing JavaScript code, gradually adopting TypeScript's features as you become more comfortable with them, or even start a new project fully in TypeScript.
 
 The true power of TypeScript comes not just from its features, but from the way it fosters better coding practices, encouraging clarity, precision, and predictability, which in turn leads to more robust and maintainable software.
 
-## Learning Resources
+### Learning and Mastering TypeScript
 
-Remember, the learning journey doesn't stop here. If you want to delve deeper and truly master TypeScript, a wealth of information and resources awaits you. The official TypeScript website, www.typescriptlang.org, is a great starting point. It provides detailed documentation, examples, and guides that can help you understand the nuances of TypeScript and apply it effectively in your projects.
+Remember, the learning journey doesn't stop here. If you want to delve deeper and truly master TypeScript, a wealth of information and resources awaits you. The official TypeScript website, [www.typescriptlang.org](http://www.typescriptlang.org), is a great starting point. It provides detailed documentation, examples, and guides that can help you understand the nuances of TypeScript and apply it effectively in your projects.
 
-## Final Thoughts
+### Conclusion
 
 In the end, TypeScript is a powerful ally in the world of JavaScript development. Embracing TypeScript is embracing a future of robust, scalable, and error-resistant code. The journey into TypeScript might be new and challenging, but the rewards are worth the effort. So, keep exploring, keep learning, and most importantly, enjoy the journey into TypeScript.
