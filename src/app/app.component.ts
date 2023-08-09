@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { LoadingComponent } from './chapter-04/loading/loading.component';
+import { LoadingComponent } from './simple-component/loading/loading.component';
 
 @Component({
   selector: 'app-root',

@@ -2,18 +2,24 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'chapter-04',
+    path: 'simple-component',
     loadComponent: () =>
-      import('./chapter-04/landing.component').then((m) => m.LandingComponent),
+      import('./simple-component/landing.component').then(
+        (m) => m.LandingComponent
+      ),
   },
   {
-    path: 'chapter-05',
+    path: 'resolve-or-die',
     loadComponent: () =>
-      import('./chapter-05/landing.component').then((m) => m.LandingComponent),
+      import('./resolve-or-die/landing.component').then(
+        (m) => m.LandingComponent
+      ),
   },
-  // {
-  //   path: 'error',
-  //   loadComponent: () =>
-  //     import('./error/error.component').then((m) => m.ErrorComponent),
-  // },
+  {
+    path: 'ng-model-checkbox',
+    loadComponent: () =>
+      import('./ng-model-checkbox/landing.component').then(
+        (m) => m.LandingComponent
+      ),
+  },
 ];

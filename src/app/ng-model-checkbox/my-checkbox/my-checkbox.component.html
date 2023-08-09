@@ -1,0 +1,10 @@
+<label class="cb-container" [class.disabled]="disabled"
+  >{{ text }}
+  <input
+    type="checkbox"
+    [checked]="isChecked"
+    (change)="onChanged($event)"
+    (blur)="onBlur($event)"
+    [disabled]="disabled" />
+  <span class="checkmark"></span
+></label>
