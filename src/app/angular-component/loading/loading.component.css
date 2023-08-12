@@ -1,0 +1,40 @@
+::host {
+  position: relative;
+}
+
+h1 {
+  line-height: 30px;
+  font-size: 24px;
+}
+
+.loader {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  background-image: url(images/loading.gif);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.hidden {
+  display: none;
+}
+
+.wrapper {
+  text-align: center;
+  font-weight: 400;
+  line-height: 18px;
+  padding: 60px 20px 20px 20px;
+  background-color: #ffffff;
+  z-index: 9000;
+
+  width: 480px;
+  height: 326px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  outline: 9999px solid rgba(217, 217, 217, 0.75);
+}
