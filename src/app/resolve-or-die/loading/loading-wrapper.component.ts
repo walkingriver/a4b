@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingComponent } from 'src/app/simple-component/loading/loading.component';
 
 @Component({
   selector: 'app-loading-wrapper',
