@@ -26,11 +26,11 @@ By the end of the experiment, each was convinced that there was something to thi
 
 ## Demonstration
 
-![Figure 23.1](image-18.png)
-
 Reading about this experience will only provide you with half of the story. I want you to understand what I am telling you at a deeper level.
 
-To demonstrate, I recorded myself reading the Preamble to the US Constitution three different ways. I assure that throughout the recordings, I have not used any editing to speed up or slow down the content.
+To demonstrate, I recorded myself reading the Preamble to the US Constitution (See Figure 23.1) three different ways. I assure that throughout the recordings, I have not used any editing to speed up or slow down the content.
+
+![Figure 23.1, US Constitution](image-18.png)
 
 Obviously, you cannot see the videos here. You can view them on YouTube with this link: [https://bit.ly/wr-slow-down](https://bit.ly/wr-slow-down)
 

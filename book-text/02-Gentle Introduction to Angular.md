@@ -83,15 +83,15 @@ export class App {
 }
 ```
 
-Look at the result that appears in the right-hand pane. The value you provided should be displayed instead of the original value.
+Look at Figure 2.1, the result that appears in the right-hand pane. The value you provided should be displayed instead of the original value.
 
-![The output of the program, which says "Hello from Mike!"](image.png)
+![Figure 2.1, The output of the program, which says "Hello from Mike!"](image.png)
 
 ## Hello Component
 
-Let's create a simple component we can use to encapsulate the above message, so that we can reuse it later. In the left panel, find the src folder and right-click it. A menu will appear offering a number of options. Select the one labeled "Angular Generator" and then select Component.
+Let's create a simple component we can use to encapsulate the above message, so that we can reuse it later. In the left panel, find the src folder and right-click it. A menu will appear offering a number of options. Select the one labeled "Angular Generator" and then select Component, as shown in Figure 2.2.
 
-![The Stackblitz file layout](image-1.png)
+![Figure 2.2, The Stackblitz file layout](image-1.png)
 
 Name your new component Hello. Stackblitz will create a new folder named hello containing three files.
 
@@ -118,9 +118,9 @@ The component class's constructor and `ngOnInit` function are both blank. You ca
 
 `@Input` is another decorator, which specifies that `name` is a string attribute that can be provided in the markup of any client that uses this component. Let's do that now.
 
-If you see that `@Input` is underlined in red, it means that StackBlitz didn't import it for you. If you click on `@Input` and look carefully at the beginning of the line, you should see a little lightbulb icon. Click it and StackBlitz will usually offer to do the right thing for you. In this case, its default option is to add the import for us.
+If you see that `@Input` is underlined in red, it means that StackBlitz didn't import it for you. See Figure 2.3. If you click on `@Input` and look carefully at the beginning of the line, you should see a little lightbulb icon. Click it and StackBlitz will usually offer to do the right thing for you. In this case, its default option is to add the import for us.
 
-![Screenshot showing the automatic import feature](image-2.png)
+![Figure 2.3, Screenshot showing the automatic import feature](image-2.png)
 Alternatively, you can manually add it to the existing import line from `'@angular/core'`, like this:
 
 ```typescript
@@ -172,9 +172,9 @@ Now that the `HelloComponent` is available to the component, replace the `<h1>` 
 <app-hello name="Neil"></app-hello>
 ```
 
-Now the output should look something like this. Furthermore, we do not have be concerned with how the `<hello>` tag works behind the scenes. We can simply reuse it.
+Now the output should look something like that in Figure 2.4. Furthermore, we do not have be concerned with how the `<hello>` tag works behind the scenes. We can simply reuse it.
 
-![Multiple Hello components with different names](image-3.png)
+![Figure 2.4, Multiple Hello components with different names](image-3.png)
 
 ## ngFor
 
@@ -238,16 +238,16 @@ Now when you click the toggle button, the value of the `isToggled` variable will
 
 The `isToggled` variable is useless until you do something with it. Add a new line inside the component's template. That's where ngIf comes in. It's used to conditionally add or remove an element from the DOM based on an expression. If the expression evaluates to a truthy value, the element is added to the DOM. If it's a falsy value, the element is removed. This makes ngIf very useful for controlling the visibility of elements based on conditions in your TypeScript code. Remember that, as a structural directive just like ngFor, ngIf is used with an asterisk (*) before the directive in your templates, like this: *ngIf="condition".
 
-In this case, let's add a paragraph tag, give it an ngIf directive, and set its condition to "isToggled."
+In this case, let's add a paragraph tag, give it an ngIf directive, and set its condition to "isToggled." You should see output like Figure 2.5.
 
 ```html
 <p *ngIf="isToggled">I am toggled on!!!</p>
 ```
 
-![Hello from Neil! but with the new paragraph missing](image-4.png)
-Now as you click the button, that paragraph will appear and disappear.
+![Figure 2.5, Hello from Neil! but with the new paragraph missing](image-4.png)
+Now as you click the button, that paragraph will appear and disappear, as in Figure 2.6.
 
-![Hello from Neil! but with the new paragraph visible](image-5.png)
+![Figure 2.6, Hello from Neil! but with the new paragraph visible](image-5.png)
 Those are the basics you need to know to work with Angular.
 
 ## Summary

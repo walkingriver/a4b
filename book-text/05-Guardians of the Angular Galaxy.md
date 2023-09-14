@@ -1,32 +1,31 @@
 # Guardians of the [Angular] Galaxy
 
-As we journey deeper into Angular, we uncover more powerful tools that not only enhance the functionality of our applications but also secure their operation. One such tool is the Router Guard. Router Guards act as gatekeepers, deciding whether navigation to a requested route is permissible or should be blocked.
+As we journey deeper into Angular, we uncover more powerful tools that not only enhance the functionality of our applications but also secure their operation. One such tool is the Route Guard. Route Guards act as gatekeepers, deciding whether navigation to a requested route is permissible or should be blocked.
 
 In this chapter, we'll take a look at them and review a simple implementation. So, let's dive in and meet these Guardians of the Routes!
 
-## Understanding Angular Router Guards
+## Understanding Angular Route Guards
 
-Angular Router Guards are functions which tell the Angular router to allow or deny navigation to a requested route. They act as security checkpoints, controlling whether a user can navigate to or away from a certain route. Router Guards are a powerful tool to add an extra layer of protection and control to your Angular applications.
+Angular Route Guards are functions which tell the Angular router to allow or deny navigation to a requested route. They act as security checkpoints, controlling whether a user can navigate to or away from a certain route. Route Guards are a powerful tool to add an extra layer of protection and control to your Angular applications.
 
 Angular offers several built-in guard types like `CanActivate`, `CanDeactivate`, `CanLoad`, and `Resolve`, each serving a specific purpose in the navigation life cycle. These guards can be used to implement complex scenarios such as user authentication, role-based access control, and form-change confirmation.
 
 ## The Value Proposition of Guards
 
-The Angular Router Guard comes with a suite of benefits:
+The Angular Route Guard comes with a suite of benefits:
 
 1. **User Access Control**: Guards can be used to control which users have access to certain routes based on their roles or permissions.
 2. **Data Protection**: They can protect data on a page from being lost when the user navigates away.
 3. **Load Optimization**: They can prevent lazy-loaded modules from loading until certain conditions are met.
 4. **Data Pre-Fetching**: Guards can fetch the data required for a specific route in advance using `Resolve` guards. We'll look more at the resolver later.
 
+In this chapter, I'll focus on `CanActivate`. I'll talk about `Resolver` guards in the next chapter.
+
 ## Practical Application of Guards
 
-To see how Angular Router Guards work in a real-world application, let's create a Guard that checks if a date parameter in a route is valid and not in the past.
+To see how Angular Route Guards work in a real-world application, let's create a Guard that checks if a date parameter in a route is valid and not in the past.
 
 ```typescript
-// Importing necessary modules
-import { CanActivateFn } from '@angular/router';
-
 export dateGuard: CanActivateFn = (route, state) => {
     const dateParam = route.params['date'];
     const date = new Date(dateParam);
@@ -46,7 +45,7 @@ It takes two parameters: `route`, an instance of `ActivatedRouteSnapshot`, and `
 
 - If all guards return `true`, the navigation continues.
 - If any guard returns `false`, the navigation is canceled.
-- If any guard returns a `UrlTree`, the current navigation - is canceled, and a new navigation begins to the `UrlTree` returned from the guard.
+- If any guard returns a `UrlTree`, the current navigation is canceled, and a new navigation begins to the `UrlTree` returned from the guard.
 
 The `dateGuard` above is a simple implementation of the `CanActivateFn` function definition.
 
@@ -70,7 +69,7 @@ In this case, the `EventComponent` is activated only if the 'date' parameter in 
 
 ## Beyond Parameter Validation
 
-While the example above focuses on parameter validation, Angular Router Guards can also be used for complex security applications like user authentication and role-based access control. In these scenarios, the guard checks a user's authentication status or roles to determine whether they should be allowed to navigate to a certain route.
+While the example above focuses on parameter validation, Angular Route Guards can also be used for complex security applications like user authentication and role-based access control. In these scenarios, the guard checks a user's authentication status or roles to determine whether they should be allowed to navigate to a certain route.
 
 Although the guard's internal logic and complexity may vary, the fundamental mechanism remains the same: analyzing the situation (e.g., checking parameters or a user's authenticated state) and making a decision about whether or not to allow navigation.
 
@@ -136,4 +135,4 @@ In summary, the `inject` function offers a flexible, powerful alternative to con
 
 ## Conclusion
 
-Angular Router Guards are an indispensable tool for Angular developers, providing powerful control over access and navigation within an application. By utilizing their capabilities, developers can ensure the right data is shown to the right user at the right time, enhancing both data security and user experience. In the next chapter, we will delve into more complex guard use cases and also explore how to handle redirection when a guard prevents navigation.
+Angular Route Guards are an indispensable tool for Angular developers, providing powerful control over access and navigation within an application. By utilizing their capabilities, developers can ensure the right data is shown to the right user at the right time, enhancing both data security and user experience. In the next chapter, we will delve into more complex guard use cases and also explore how to handle redirection when a guard prevents navigation.

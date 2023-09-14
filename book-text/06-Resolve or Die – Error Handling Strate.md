@@ -131,15 +131,15 @@ Either of these alternative patterns can be handled by kicking off the data load
 
 ## Demo
 
-Here is a demo I created with the above code to show all three of these options side-by-side. The demo consists of three Angular page components, each attempting to load some data from a common service. The service simply waits 3.5 seconds and throws an error.
+Here is a demo I created with the above code to show all three of these options side-by-side. The demo consists of three Angular page components, each attempting to load some data from a common service, as you can see in Figure 6.1. The service simply waits 3.5 seconds and throws an error, as shown in Figure 6.2.
 
 ### Loading
 
-![Figure 3.1 - Loading Text](image-10.png)
+![Figure 6.1 - Loading Text](image-10.png)
 
 ### Error State
 
-![Figure 3.2 - Error State](image-11.png)
+![Figure 6.2 - Error State](image-11.png)
 
 If you wish to see the demo code in its entirety, please see the GitHub repo included with the book’s extras.
 

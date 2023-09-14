@@ -1,8 +1,8 @@
 # Use "git-bisect" to Find Problems Fast
 
-Recently I noticed that one of the styles on a custom component got messed up. The component consists of a piece of text between two icons. There used to be some generous space between the icons and the text, but now there isn't.
+Recently I noticed that one of the styles on a custom component got messed up. The component consists of a piece of text between two icons. There used to be some generous space between the icons and the text, but now there isn't, as you can see in Figure 20.1.
 
-![Figure 20.1](image-16.png)
+![Figure 20.1, Stepper buttons with no spacing](image-16.png)
 
 I first suspected that a class had been changed. Maybe it had some padding and now it doesn't, but a quick check in the Chrome Developer Tools showed no such padding in the production version (which still looks right).
 
@@ -36,9 +36,9 @@ The output from git-bisect tells me there are 6 revisions or commits between tho
 
 Now it's time to run the app and see if the problem exists. My issue is visual, so I'll have to build and run the app and inspect the output.
 
-![Figure 20.2](image-17.png)
+It looks perfect. You can see the spacing between the number 1 and the icons in Figure 20.2.
 
-It looks perfect. You can see the spacing between the number 1 and the icons.
+![Figure 20.2, Stepper buttons with desired spacing](image-17.png)
 
 So, now I tell git that this is a good commit.
 
@@ -52,9 +52,7 @@ I rebuilt and refreshed the app, and that one was also good.
 
 This one was also good, so I repeated the above command.
 
-Notice it says there are 0 revisions and 0 steps left, so this had better be the bad one, which it was.
-
-![Figure 20.3](image-16.png)
+The command output tells me that there are 0 revisions and 0 steps left, so this had better be the bad one, which it turned out to be.
 
 With git-bisect's help, I only had to try three commits to find the culprit.
 

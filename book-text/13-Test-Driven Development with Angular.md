@@ -163,9 +163,9 @@ However, these tests won't run and they won't even compile because the functions
 
 ## Implementing Auto-Generated Service Code
 
-Fortunately, VS Code will do the heavy lifting for me. All I have to do is put my edit cursor on one of the function names, click the yellow light-bulb (for Auto Fix), and choose "Add all missing members."
+Fortunately, VS Code will do the heavy lifting for me. All I have to do is put my edit cursor on one of the function names, click the yellow light-bulb (for Auto Fix), and choose "Add all missing members," as show n in Figure 13.1.
 
-![Figure 13-1](image-14.png)
+![Figure 13.1, Auto import in VS Code](image-14.png)
 
 The code it builds is not ideal and will still require some editing, but at this point the tests will compile.
 

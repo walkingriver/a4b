@@ -38,6 +38,10 @@ Though not strictly necessary, I like to create my archive from the root of my r
 
 Note: The archive will not contain the .git directory, but will contain other hidden git-specific files like .gitignore, .gitattributes, etc.
 
+## Summary
+
+In this chapter, I talk about the how and why of archiving a Git repository without its history. I often need to send code snapshots to people who don't need access to the full repo, or for my Pluralsight courses. I share three variations of the `git archive` command to create zip, tar, or tar/bzip archives. Despite its simplicity, I find myself frequently forgetting these commands, so I've documented them here. The archive won't include the .git directory but will have other Git-specific hidden files. I also provide a Stack Overflow link for additional info.
+
 ## Reference
 
-[https://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export](https://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export) (https://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export)
+- https://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export

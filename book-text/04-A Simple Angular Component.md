@@ -120,9 +120,9 @@ Now let us take a look at the markup. This, too, is pretty simple, almost trivia
 </div>
 ```
 
-The component consists of a single `<div>` with a class called `wrapper`. We will see more of that in the next section on styling. Inside this `<div>` are three more elements:
+The component consists of a single `<div>` with a class called `wrapper`, which I show in Figure 4.1. We will see more of that in the next section on styling. Inside this `<div>` are three more elements:
 
-![Loading GIF from Pixabay.com](image-9.png)
+![Figure 4.1, Loading GIF from Pixabay.com](image-9.png)
 
 - An `<img>` tag pointing at an animated gif. You can use any animated gif you’d like. I found a suitable one at pixabay.com (which I’ll touch on in more detail later in the book. For reference, this is the image I used: [Pixabay Image](https://pixabay.com/gifs/load-loading-process-wait-delay-37) or https://pixabay.com/gifs/load-loading-process-wait-delay-37.
 - The image is placed in an images folder just inside the loading component’s folder. At build time, it will be copied to the correct place and referenced appropriately.
@@ -276,13 +276,13 @@ The load function will set the isLoading property to true, which will trigger th
 
 ## The Result
 
-Start the Angular server by typing `ng serve` or `npm start` at the command line. You should end up with something like this:
+Start the Angular server by typing `ng serve` or `npm start` at the command line. You should end up with something like Figure 4.2.
 
-![Loading toggle button](image-8.png)
+![Figure 4.2, Loading toggle button](image-8.png)
 
-When you click the button, you'll see the component in action.
+When you click the button, you'll see the component in action, as show in Figure 4.3.
 
-![Visibile Loading Indicator](image-7.png)
+![Figure 4.3, Visibile Loading Indicator](image-7.png)
 
 ## Summary
 

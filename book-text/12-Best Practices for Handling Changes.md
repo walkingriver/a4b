@@ -10,13 +10,13 @@ A recent tweet about @Input() changes in Angular got a lot of discussion going. 
 
 I have a UI component I've written in Angular that needs to display a collection of buttons. The component doesn't know or care what the buttons contain. It simply ensures that only one button is selected at a time and emits an event when that selection changes.
 
-For simplicity, here is one possible use of this component. Think of them as "radio buttons" implemented as a collection of "pill buttons."
+For simplicity, here is one possible use of this component. Think of them as "radio buttons" implemented as a collection of "pill buttons" as you can see in Figure 12.1.
 
-![Figure 12-1](image-12.png)
+![Figure 12.1, Radio "pill" buttons](image-12.png)
 
-What I want to point out are the captions above each button. When I started to implement this component, I found an existing component in my project that implemented most of this functionality, but didn't support those captions.
+What I want to point out are the captions above each button. When I started to implement this component, I found an existing component in my project that implemented most of this functionality, but didn't support those captions. You can see an example of these in Figure 12.2.
 
-![Figure 12-2](image-13.png)
+![Figure 12.2, Buttons without a label caption](image-13.png)
 
 When I added support for the captions, I found I needed a top margin to prevent the captions from running into the content above. That broke the spacing for the buttons with no captions. I decided that maybe I could introduce a class that added some top margin if any of the buttons contained a caption.
 

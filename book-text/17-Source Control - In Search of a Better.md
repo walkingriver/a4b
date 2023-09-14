@@ -45,9 +45,9 @@ This is a sample code flow I envision for any given feature:
 
 ## GitHub Protected-branch Settings
 
-Here is a description of my recommended settings for protecting the base branch.
+Here is a description of my recommended settings for protecting the base branch. Figure 17.1 shows them all together, after which I will describe them in more detail.
 
-![Figure 17.1](image-15.png)
+![Figure 17.1, My recommended GitHub Protected Branch Settings](image-15.png)
 
 ## The Rationale
 

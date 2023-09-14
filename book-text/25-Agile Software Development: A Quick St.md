@@ -12,15 +12,17 @@ For the purposes of this article, I'm going to use Trello. If you want to follow
 
 ## Task Creation and Tracking
 
-Setup with Trello is fast. Simply go to the [Trello website](https://www.trello.com/), logon (or create an account), create an organization for your team, add members, and set up a new board. By default, your board will include three empty lists:
+Setup with Trello is fast. Simply go to the Trello website at https://www.trello.com/, logon (or create an account), create an organization for your team, add members, and set up a new board. By default, your board will include three empty lists, like the one shown in Figure 25.1:
 
-![Figure 25-1: Trello Start Page](image-19.png)
+![Figure 25.1: Trello Start Page](image-19.png)
 
 Though your lists can be modified at any time, this is a great place to start, and will allow you to create a backlog of stories and tasks quickly, without regard to importance, how long a task might take to accomplish, or who will end up implementing them.
 
-Every feature and idea that anyone has is fair game at this stage. Create a new card in the "To Do" list for every idea, user story, or task you can think of. As long as a card is in this list, anyone can make changes to it. Cards can be moved around at will, but should be sorted by importance. The more important cards are near the top. This forces you to make value judgments on the relative importance of your features. Because cards must be in order, no two cards can share the same significance. This eliminates the problem of every feature request being considered "critical." The most critical card is always the one on top.
+Every feature and idea that anyone has is fair game at this stage. Create a new card in the "To Do" list for every idea, user story, or task you can think of, as shown in Figure 25.2.
 
-![Figure 25-2: Trello board with To Do items](image-20.png)
+As long as a card is in this list, anyone can make changes to it. Cards can be moved around at will, but should be sorted by importance. The more important cards are near the top. This forces you to make value judgments on the relative importance of your features. Because cards must be in order, no two cards can share the same significance. This eliminates the problem of every feature request being considered "critical." The most critical card is always the one on top.
+
+![Figure 25.2: Trello board with To Do items](image-20.png)
 
 All changes and comments to all cards are logged, so it's easy to look back and see a history of how a feature has evolved over time.
 
@@ -34,9 +36,11 @@ There are informal methods for dealing with this, but one particularly clever id
 
 Once the extension is installed, you can simply click on a card's title to set its estimate. A small row of numbers appears just under the title's text box. The numbers are the typical agile planning values from 0 to 21. Click on one to set it.
 
-Your development team should go through each card in the To Do list and assign an estimate. Very simple tasks will probably get a 0.5 or 1. Extremely complicated tasks might get a 13 or 21. Those cards should be broken down into multiple cards so that every estimate is a single-digit number.
+Your development team should go through each card in the To Do list and assign an estimate. Very simple tasks will probably get a 0.5 or 1. See Figure 25.3.
 
-![Figure 25-3: Trello Board with Scrum for Trello Estimates](image-21.png)
+Extremely complicated tasks might get a 13 or 21. Those cards should be broken down into multiple cards so that every estimate is a single-digit number.
+
+![Figure 25.3: Trello Board with Scrum for Trello Estimates](image-21.png)
 
 By design, the numbers do not contain units. They don't represent any particular measure of time.
 
@@ -52,9 +56,11 @@ The typical length of an iteration is two weeks, though some teams like to use o
 
 This is also where you may want to consider making your first custom list in Trello. I like to create a new list between To Do and Doing. Simply click the "Add a list..." link to the right of your right-most list. Call it "Current Iteration." Create the list and drag it to the space between To Do and Doing. This is where the current work will go.
 
-Your task at this point is to select the most important cards from the To Do list, and move them to the Current Iteration list. Remember that cards should already be organized by importance from top to bottom, so you simply need to drag them from one list to the other. As you do so, the Scrum extension will update the list's estimate. Continue dragging cards until the developers feel confident that they can complete the amount of work scheduled.
+Your task at this point is to select the most important cards from the To Do list, and move them to the Current Iteration list, as you can see in Figure 25.4.
 
-![Figure 25-4: Trello Board showing work scheduled in the current sprint](image-22.png)
+Remember that cards should already be organized by importance from top to bottom, so you simply need to drag them from one list to the other. As you do so, the Scrum extension will update the list's estimate. Continue dragging cards until the developers feel confident that they can complete the amount of work scheduled.
+
+![Figure 25.4: Trello Board showing work scheduled in the current sprint](image-22.png)
 
 Developers should not be pressured to accept more work than they feel they can handle, especially in your first iteration.
 
@@ -64,9 +70,11 @@ Once your iteration is planned and cards are in the Current Iteration list, deve
 
 At the beginning of every day, the developers should get together to discuss what cards they intend to work on that day. No two developers can work on the same card simultaneously. Doing so indicates that there is more than one task on that card, and it should be split into multiple cards. You can do that if necessary, but be sure that the total estimate doesn't change.
 
-As developers select a card to work on for the day, they will assign the card to themselves (select the card, click Members, and add themselves). Then the developer will move the card from Current Iteration to Doing, and begin to implement the feature on the card. Throughout development, comments and checklists can be freely added to the card.
+As developers select a card to work on for the day, they will assign the card to themselves (select the card, click Members, and add themselves). Then the developer will move the card from Current Iteration to Doing, and begin to implement the feature on the card, an example of which can be seen in Figure 25.5.
 
-![Figure 25-5: Trello Board showing work in progress](image-23.png)
+Throughout development, comments and checklists can be freely added to the card.
+
+![Figure 25.5: Trello Board showing work in progress](image-23.png)
 
 The powerful thing about this is that everyone on the team can see the current state of development at any time at a glance, simply by loading the project's board. The boards update automatically when anything changes, so that all users see others' changes almost immediately.
 
@@ -74,9 +82,9 @@ If a developer has a question for someone else on the team, he can enter that qu
 
 When the developer has finished implementing a particular card, drag it from Doing to Done. He can then take another card from Current Iteration, assign himself to it, and drag it to Doing. Developers continue to work in this way until the iteration ends or they run out of cards.
 
-Running out of cards is the exception to the rule of not moving cards between To Do and Current Iteration. This simply indicates that the developers are working faster than initially expected. If this happens, management (in consultation with developers) should move one or more cards from To Do into Current Iteration, again based on importance. The developers can continue working until the iteration ends.
+Running out of cards is the exception to the rule of not moving cards between To Do and Current Iteration, as I show in Figure 25.6. This simply indicates that the developers are working faster than initially expected. If this happens, management (in consultation with developers) should move one or more cards from To Do into Current Iteration, again based on importance. The developers can continue working until the iteration ends.
 
-![Figure 25-6: Trello Board showing some completed work](image-24.png)
+![Figure 25.6: Trello Board showing no work left to do](image-24.png)
 
 If the iteration ends with cards still in the Current Iteration list, don't consider it a failure of your estimation or planning. It just means you put in more cards than the developers were able to finish. This is important information that you can now use to help plan the next iteration.
 
@@ -112,9 +120,11 @@ The overall estimate of the Current Iteration cannot change in the middle of an 
 
 At the end of every iteration, schedule a period of time (an hour or two) to review the work that was completed. This is the iteration's retrospective, where you will calculate and discuss your team's velocity. It is a good time to have a "[start, stop, and continue](https://www.people-results.com/start-stop-continue/)" review to determine what worked and didn't during the iteration, and what things can be improved for the next iteration. [Raw URL: https://www.people-results.com/start-stop-continue/]
 
-Any cards remaining in the Current Iteration can be left there for the next iteration, or if management decides, can be put back into the To Do list for reevaluation. The same goes with cards in the Doing list, though because work has already started, it would be a waste to move them back into the To Do list. All cards in the Done list can be archived. Alternatively, you can rename the Done list with the current iteration number, and then archive the entire list. If you choose this route, simply create a new Done list to be used with the next iteration.
+Figure 25.7 shows a completed iteration, with nothing left to do. This is the ideal scenario. That won't always be the case, though. Any cards remaining in the Current Iteration can be left there for the next iteration, or if management decides, can be put back into the To Do list for reevaluation. The same goes with cards in the Doing list, though because work has already started, it would be a waste to move them back into the To Do list.
 
-![Figure 25-7: Trello Board showing a completed sprint](image-25.png)
+All cards in the Done list can be archived. Alternatively, you can rename the Done list with the current iteration number, and then archive the entire list. If you choose this route, simply create a new Done list to be used with the next iteration.
+
+![Figure 25.7: Trello Board showing a completed iteration](image-25.png)
 
 Once you have completed the retrospective, you can roll right into the planning for your next iteration, and repeat the process.
 
