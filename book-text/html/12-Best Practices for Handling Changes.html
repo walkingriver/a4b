@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>12-Best Practices for Handling Changes</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1
+id="best-practices-for-handling-changes-to-input-properties-in-angular">Best
+Practices for Handling Changes to Input Properties in Angular</h1>
+<h2 id="the-pros-and-cons-of-property-setters-vs-ngonchanges">The Pros
+and Cons of Property Setters vs ngOnChanges</h2>
+<p>As Angular developers, one of the challenges we often face is how to
+handle changes to input properties in our components. There are a few
+different approaches we can take, and in this article, we’ll take a look
+at the pros and cons of using property setters versus the ngOnChanges
+lifecycle hook. We’ll also provide some guidelines for deciding which
+approach is best for your project.</p>
+<p>A recent tweet about <span class="citation"
+data-cites="Input">@Input</span>() changes in Angular got a lot of
+discussion going. It got enough attention and discussion that I thought
+it would be valuable to capture the ideas and suggestions into a single
+place. At the time of this writing, I still haven’t decided which of the
+various approaches I personally prefer, though I will tell you what I
+did in this particular application.</p>
+<h2 id="the-scenario-that-started-it-all">The Scenario That Started It
+All</h2>
+<p>I have a UI component I’ve written in Angular that needs to display a
+collection of buttons. The component doesn’t know or care what the
+buttons contain. It simply ensures that only one button is selected at a
+time and emits an event when that selection changes.</p>
+<p>For simplicity, here is one possible use of this component. Think of
+them as “radio buttons” implemented as a collection of “pill buttons” as
+you can see in Figure 12.1.</p>
+<figure>
+<img src="image-12.png" alt="Figure 12.1, Radio “pill” buttons" />
+<figcaption aria-hidden="true">Figure 12.1, Radio “pill”
+buttons</figcaption>
+</figure>
+<p>What I want to point out are the captions above each button. When I
+started to implement this component, I found an existing component in my
+project that implemented most of this functionality, but didn’t support
+those captions. You can see an example of these in Figure 12.2.</p>
+<figure>
+<img src="image-13.png"
+alt="Figure 12.2, Buttons without a label caption" />
+<figcaption aria-hidden="true">Figure 12.2, Buttons without a label
+caption</figcaption>
+</figure>
+<p>When I added support for the captions, I found I needed a top margin
+to prevent the captions from running into the content above. That broke
+the spacing for the buttons with no captions. I decided that maybe I
+could introduce a class that added some top margin if any of the buttons
+contained a caption.</p>
+<h2 id="the-case-for-ngonchanges">The Case for ngOnChanges</h2>
+<p>At first, I simply dropped the code I needed into a fresh ngOnChanges
+function, using this code to recalculate the value whenever the input
+changed.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// When the selectableTimes input changes, check for captions and set a local variable if any are found.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ngOnChanges</span>(changes<span class="op">:</span> SimpleChanges) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (changes<span class="op">.</span><span class="at">selectableTimes</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">hasCaptions</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">selectableTimes</span><span class="op">.</span><span class="fu">some</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      (selectableTime) <span class="kw">=&gt;</span> selectableTime<span class="op">.</span><span class="at">caption</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>It worked, but then it occurred to me that a setter might make more
+sense. I immediately sent the tweet above to get others’ opinions.</p>
+<p>One commenter suggested that we should use ngOnChanges because
+“business logic in setters are strange.”</p>
+<p>Igor made a strong case for ngOnChanges, going so far as posting
+another twitter thread with sample code. His warning about not using
+setters if they have to read any other input properties was something I
+hadn’t considered. My use case did not, but it was something to keep in
+mind.</p>
+<p>The opinions kept coming.</p>
+<p>Josh said “anything that updates a computed value or needs to react
+based on multiple inputs, I will use ngOnChanges. For instance, building
+a slider with min/max inputs…convert min/max to numbers, validate range
+in ngOnChanges.”</p>
+<p>Ryan lent his support for ngOnChanges for my use case, saying that I
+should use “OnChange for inputs as it feels more visible and correct. I
+only really used setters for simple things like aliasing form controls
+etc.” The implication is that because I was computing other values from
+the change, it makes more sense to do as part of a “change” event.</p>
+<p>Another response from Rob was to use ngOnChanges to update internal
+observables that are then bound to the template with async pipes. He
+didn’t provide sample code, but I imagine the change would trigger a new
+value on an internal RxJS Subject.</p>
+<h1
+id="best-practices-for-handling-changes-to-input-properties-in-angular-1">Best
+Practices for Handling Changes to Input Properties in Angular</h1>
+<h2 id="the-case-for-setters">The Case for Setters</h2>
+<p>Despite the opinions above, I decided to try a setter to see if it
+looked or felt any better. Using a property setter gave me the direct
+option to run additional logic whenever the input value changed. Quite
+frankly, there is little difference between this and the ngOnChanges
+code, except I don’t need a conditional to see what had changed.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Input</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="fu">selectableTimes</span>(value<span class="op">:</span> SelectableTime[]) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">_selectableTimes</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">hasCaptions</span> <span class="op">=</span> value<span class="op">.</span><span class="fu">some</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    (selectableTime) <span class="kw">=&gt;</span> selectableTime<span class="op">.</span><span class="at">caption</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="what-did-others-think">What did others think?</h2>
+<p>Many people simply replied “setters” without explanation. This is
+fine, as it’s what I asked for. Some added that setters look cleaner,
+citing the fact that with ngOnChanges, you have to have some sort of
+conditional to determine exactly what changed.</p>
+<p>Ashish prefers setters for this case, particularly because it “takes
+away the extra check to identify what changed… Also code readability and
+clear intent.”</p>
+<p>Aissaoui pointed out that setters trigger on your Input changes, but
+ngOnchange will trigger on all of inputs [changed].</p>
+<p>This pattern was pretty consistent across those favoring setters.</p>
+<h2 id="how-many-inputs">How Many Inputs?</h2>
+<p>Ben pointed out that the decision may depend on the number of inputs
+your component has.</p>
+<p>He went on to add that “setters may fire in an unpredictable order…if
+you need to control the order across multiple inputs, or you need the
+value of multiple inputs, then use ngOnChanges.”</p>
+<p>This warning was repeated by others.</p>
+<h2 id="use-a-component-store">Use a Component Store</h2>
+<p>Jason suggested not using Inputs at all but use some sort of
+component store. In fact, the number of suggestions to use a component
+store may have outnumbered the rest entirely. For my simple use case, I
+felt this would be overkill.</p>
+<h2 id="property-change-notification">Property Change Notification?</h2>
+<p>This appears to be a missing feature in Angular, as pointed out by
+Rob. Jay pointed out <a
+href="https://www.npmjs.com/package/@trellisorg/update">an npm package
+he built</a> (https://www.npmjs.com/package/<span class="citation"
+data-cites="trellisorg/update">@trellisorg/update</span>) to fill this
+functional gap. As he describes it, it “Provides a decorator (<span
+class="citation" data-cites="Update">@Update</span>) that allows you to
+hook into the assignment of a property in a class and then call some
+function on an injectable to update it.”</p>
+<p>This appears to be an elegant solution. If I find myself needing this
+type of functionality more broadly, I may try it.</p>
+<h2 id="observable-inputs">Observable Inputs</h2>
+<p>A few people made the comment that we could use Observables with our
+inputs, which could then be directly piped within the component for
+additional processing. The resulting Observables would then be available
+for consumption anywhere in the template with little additional
+effort.</p>
+<p>I would consider this approach for a component that has application
+context logic, but in this case, I’m building something little more than
+a reusable widget, so I didn’t want to build those kinds of smarts into
+it.</p>
+<h2 id="my-solution">My Solution</h2>
+<p>What did I ultimately decide to do? If you look back at my use case,
+it was simple enough that I could have gone with any of these
+approaches. In the end, I decided to go with none of them.</p>
+<p>I realized that the hosting component has all the knowledge it needs
+<em>at compile</em> time, so it would be the best authority of when to
+set this extra CSS class.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Input</span>() showCaptions<span class="op">:</span> <span class="dt">boolean</span><span class="op">;</span></span></code></pre></div>
+<p>My final code simply adds a new <span class="citation"
+data-cites="Input">@Input</span> to the component that is set by the
+user of the component. I was able to remove all the additional logic and
+ship a simpler component.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>It’s important to carefully consider the best approach for handling
+changes to input properties in your Angular components. While both
+property setters and the ngOnChanges lifecycle hook have their
+advantages and disadvantages, it’s possible to overthink the problem and
+end up complicating your solution unnecessarily.</p>
+<p>If you find yourself struggling to decide which approach is best for
+your use case, it can be helpful to step back and consider whether a
+simpler solution might be sufficient. Remember, the key is to choose an
+approach that is effective, maintainable, and easy to understand for
+yourself and your team.</p>
+</body>
+</html>

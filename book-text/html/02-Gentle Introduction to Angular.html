@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>02-Gentle Introduction to Angular</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="gentle-introduction-to-angular">Gentle Introduction to
+Angular</h1>
+<p><em>You will want to provide coworkers a Gentle introduction to
+Angular</em></p>
+<p>The aim of this chapter is to offer a gentle introduction to Angular,
+providing your team with the foundational knowledge required to navigate
+the platform effectively. This is not an exhaustive guide to mastering
+Angular, but rather an initiation into its unique idioms and patterns -
+those peculiar ‘Angularisms’ that form the essence of its syntax and
+structure.</p>
+<p>We’ll journey through the fundamental elements of Angular, presenting
+the core concepts in a clear and accessible manner. This will enable
+your team members to confidently dive into the code, equipped with an
+understanding of Angular’s fundamental principles. This initial
+understanding is crucial, as it will serve as the foundation upon which
+they will continue to build their knowledge and expertise.</p>
+<p>To work through the example in this chapter, open a browser to <a
+href="https://stackblitz.com/fork/angular">Stackblitz</a>. This will
+provide you with an immediate sandbox where you can follow along. As
+soon as you do, you should see the following code in the center panel, a
+file call main.ts.</p>
+<p>Raw URL: https://stackblitz.com/fork/angular</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="st">&#39;zone.js/dist/zone&#39;</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Component } <span class="im">from</span> <span class="st">&#39;@angular/core&#39;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { CommonModule } <span class="im">from</span> <span class="st">&#39;@angular/common&#39;</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { bootstrapApplication } <span class="im">from</span> <span class="st">&#39;@angular/platform-browser&#39;</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Component</span>({</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  selector<span class="op">:</span> <span class="st">&#39;my-app&#39;</span><span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  standalone<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  imports<span class="op">:</span> [CommonModule]<span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  template<span class="op">:</span> <span class="vs">`</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;h1&gt;Hello from {{ name }}!&lt;/h1&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;a target=&quot;_blank&quot; href=&quot;https://angular.io/start&quot;&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="vs">      Learn more about Angular</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/a&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="vs">  `</span><span class="op">,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> App {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;Angular&#39;</span><span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">bootstrapApplication</span>(App)<span class="op">;</span></span></code></pre></div>
+<h2 id="angulars-concept-of-separation-of-concerns">Angular’s Concept of
+Separation of Concerns</h2>
+<p>Let us start by talking about Angular’s concept of separation of
+concerns. In this sample app, you probably don’t see much separation,
+but it’s there. As you create larger apps, you certainly would.</p>
+<p>Personally, I would not recommend you combine all these together in
+one file, except in the simplest of components. That said, there are
+many proponents of keeping all your component code in one file. Find
+your own balance; it is probably somewhere in between “always” and
+“never” doing this.</p>
+<h2 id="understanding-components">Understanding Components</h2>
+<p>In Angular, UI functionality is encapsulated in components. A
+component can represent anything from a piece of text, a button, a form,
+or even an entire page. Components can contain other components, and
+they can communicate with each other through well-defined
+interfaces.</p>
+<p>You specify that a TypeScript class is a component using the <span
+class="citation" data-cites="Component">@Component</span> decorator.
+Decorators provide additional information by annotating or modifying
+classes or class members.</p>
+<p>In this case, the component decorator provides additional metadata to
+Angular about how the class will behave.</p>
+<h2 id="understanding-attributes">Understanding Attributes</h2>
+<p>The <code>selector</code> attribute tells Angular to expose this
+component using the HTML tag <code>&lt;my-app&gt;</code>.</p>
+<p>The <code>standalone</code> attribute tells Angular that this
+component does not reside in a separate NgModule. Standalone components
+were first introduced as a developer preview in Angular 15.2.</p>
+<p>The <code>imports</code> attribute indicates that the code in this
+component makes use of functionality found inside “CommonModule.” We
+will use some of these functionality later in this chapter, so it’s
+important that we import it.</p>
+<p>The <code>template</code> attribute directly contains the HTML
+markup.</p>
+<h2 id="understanding-the-component-class">Understanding The Component
+Class</h2>
+<p>The executable portion of the component code is found inside the
+class definition. This one contains a single line of code, meaning it is
+not doing much.</p>
+<p>Even though everything is inside one file, this is what I mean by a
+“separation of concerns.” The code, markup, and styles are all separated
+from one another.</p>
+<h2 id="understanding-the-markup">Understanding The Markup</h2>
+<p>Take a look at the markup. It is a TypeScript templated string
+literal containing pure HTML content.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>Hello from {{name}}!<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;a</span> <span class="er">target</span><span class="ot">=</span><span class="st">&quot;_blank&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;https://angular.io/start&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  Learn more about Angular</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/a&gt;</span></span></code></pre></div>
+<p>Notice the first line contains a common HTML tag,
+<code>&lt;h1&gt;</code>.</p>
+<p>Inside of that tag is an attribute called name, set to the value {{
+name }}. This is an Angular “one-way” binding expression. During the
+page rendering phase, Angular sees that expression, and knows to set the
+value of the name attribute to the run-time value of the variable name
+on the component. It would probably be less confusing if they used a
+different variable name.</p>
+<p>Now, change the <code>name</code> variable inside the component code
+and give it a different value. I changed mine to look like this.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> App {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;Mike&#39;</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Look at Figure 2.1, the result that appears in the right-hand pane.
+The value you provided should be displayed instead of the original
+value.</p>
+<figure>
+<img src="image.png"
+alt="Figure 2.1, The output of the program, which says “Hello from Mike!”" />
+<figcaption aria-hidden="true">Figure 2.1, The output of the program,
+which says “Hello from Mike!”</figcaption>
+</figure>
+<h2 id="hello-component">Hello Component</h2>
+<p>Let’s create a simple component we can use to encapsulate the above
+message, so that we can reuse it later. In the left panel, find the src
+folder and right-click it. A menu will appear offering a number of
+options. Select the one labeled “Angular Generator” and then select
+Component, as shown in Figure 2.2.</p>
+<figure>
+<img src="image-1.png" alt="Figure 2.2, The Stackblitz file layout" />
+<figcaption aria-hidden="true">Figure 2.2, The Stackblitz file
+layout</figcaption>
+</figure>
+<p>Name your new component Hello. Stackblitz will create a new folder
+named hello containing three files.</p>
+<p>Here, you will be able to see a true separation of concerns, though I
+would have been fine with keeping it all together for what will be a
+trivial example. Again, you will eventually find your own balance. There
+is no right or wrong.</p>
+<p>Open up the file <code>hello.component.ts</code> and look at its
+implementation. You first thing you may notice is that its markup is
+defined in a different file. It also has a <code>styleUrls</code> array
+that we didn’t see before. This is the more traditional way to define an
+Angular component, clearly separating its imperative component code from
+its declarative markup and styles. The component itself is pretty bland,
+containing no code at all yet.</p>
+<p>It’s also missing something critical, at least for our purposes here.
+This new component is neither marked as standalone, nor is it part of a
+larger <code>NgModule</code>. As standalone components are arguably the
+future of Angular, let’s fix it by adding a <code>standalone</code>
+attribute right after the <code>selector</code>. Your
+<code>@Component</code> decorator should now look like this:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Component</span>({</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  selector<span class="op">:</span> <span class="st">&#39;app-hello&#39;</span><span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  standalone<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  templateUrl<span class="op">:</span> <span class="st">&#39;./hello.component.html&#39;</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  styleUrls<span class="op">:</span> [<span class="st">&#39;./hello.component.css&#39;</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<p>The component class’s constructor and <code>ngOnInit</code> function
+are both blank. You can go ahead and leave them. It won’t hurt anything.
+Above the constructor, add a single line of code:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Input</span>() name<span class="op">:</span> string <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span></code></pre></div>
+<p><code>@Input</code> is another decorator, which specifies that
+<code>name</code> is a string attribute that can be provided in the
+markup of any client that uses this component. Let’s do that now.</p>
+<p>If you see that <code>@Input</code> is underlined in red, it means
+that StackBlitz didn’t import it for you. See Figure 2.3. If you click
+on <code>@Input</code> and look carefully at the beginning of the line,
+you should see a little lightbulb icon. Click it and StackBlitz will
+usually offer to do the right thing for you. In this case, its default
+option is to add the import for us.</p>
+<p><img src="image-2.png"
+alt="Figure 2.3, Screenshot showing the automatic import feature" />
+Alternatively, you can manually add it to the existing import line from
+<code>'@angular/core'</code>, like this:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  Component<span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  Input<span class="op">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  OnInit<span class="op">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&#39;@angular/core&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>Either way, you should end up with a line like that one at the top of
+the file.</p>
+<p>Now let’s make this component do something interesting. Open the
+markup file, <code>hello.component.html</code>. Delete its contents and
+add a single line:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>Hello from {{ name }}!<span class="kw">&lt;/h1&gt;</span></span></code></pre></div>
+<p>If this looks familiar, it’s similar to what we already have seen in
+<code>main.ts</code>.</p>
+<h2 id="component-reuse">Component Reuse</h2>
+<p>The real power of creating a component like this is that you can
+reuse the component anywhere, simply replacing its <code>name</code>
+attribute, and it will render consistently.</p>
+<p>Back in <code>main.ts</code>, we need to import the new component so
+that we can use it. Find the <code>imports</code> attribute. Notice its
+value is an array. Add <code>HelloComponent</code> to the array, right
+after <code>CommonModule</code>. It should now look like this:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>imports<span class="op">:</span> [CommonModule<span class="op">,</span> HelloComponent]<span class="op">,</span></span></code></pre></div>
+<p>If you did it correctly, StackBlitz automatically imported the
+<code>HelloComponent</code> at the top of the file and you’ll see this
+line at the top of the file with the rest of the imports.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { HelloComponent } <span class="im">from</span> <span class="st">&#39;./hello/hello.component&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>If that line isn’t there, go ahead and click the lightbulb to add it
+automatically, or manually add it after the other import statements.</p>
+<h3 id="sidebar-import-vs-imports">Sidebar: import vs imports</h3>
+<blockquote>
+<p>The TypeScript <code>import</code> statement is used to import
+classes, functions, types, and other exported items from other
+TypeScript or JavaScript modules into the current file. These imports
+allow you to use external functionalities within your TypeScript
+code.</p>
+<p>On the other hand, starting with Angular 15.2, the
+<code>@Component</code> decorator now includes an <code>imports</code>
+array. This array isn’t related to TypeScript’s <code>import</code>
+statement. Instead, it’s specific to Angular and is used to provide the
+compilation context for standalone components. It includes all other
+components, directives, pipes, and <code>NgModules</code> that are used
+in the template of the standalone component.</p>
+<p>So, while both involve the term “import”, they serve different
+purposes.</p>
+</blockquote>
+<p>Now that the <code>HelloComponent</code> is available to the
+component, replace the <code>&lt;h1&gt;</code> tag and its contents with
+a few copies of the <code>&lt;hello&gt;</code> tag and provide different
+names. Something like this, perhaps.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;{{ name }}&quot;</span><span class="kw">&gt;&lt;/app-hello&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;Greg&quot;</span><span class="kw">&gt;&lt;/app-hello&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;Jonathan&quot;</span><span class="kw">&gt;&lt;/app-hello&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;Neil&quot;</span><span class="kw">&gt;&lt;/app-hello&gt;</span></span></code></pre></div>
+<p>Now the output should look something like that in Figure 2.4.
+Furthermore, we do not have be concerned with how the
+<code>&lt;hello&gt;</code> tag works behind the scenes. We can simply
+reuse it.</p>
+<figure>
+<img src="image-3.png"
+alt="Figure 2.4, Multiple Hello components with different names" />
+<figcaption aria-hidden="true">Figure 2.4, Multiple Hello components
+with different names</figcaption>
+</figure>
+<h2 id="ngfor">ngFor</h2>
+<p>But what if you have a bunch of names? Change the <code>name</code>
+variable on the component and make it an array called
+<code>names</code>.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [<span class="st">&#39;Mike&#39;</span><span class="op">,</span> <span class="st">&#39;Greg&#39;</span><span class="op">,</span> <span class="st">&#39;Jonathan&#39;</span><span class="op">,</span> <span class="st">&#39;Neil&#39;</span>]<span class="op">;</span></span></code></pre></div>
+<p>The cool thing about reusing components this way is that you do not
+have to change the <code>hello</code> component at all. You simply need
+to change the calling code to use <code>ngFor</code>, an Angular
+directive used to create multiple instances of the <code>hello</code>
+component based on the number of elements in the referenced array.</p>
+<p>You use an <code>ngFor</code> by providing it as an attribute to the
+element you want replicated. The value inside the quotes is the looping
+expression. It consists of the keyword <em>let</em> followed by the
+variable name to be used inside the element and any of its children, the
+keyword <em>of</em>, and the name of the array on the component to loop
+over.</p>
+<p>Delete the individual <code>app-hello</code> tags, replacing them
+with a single tag with an <code>ngFor</code> expression, like this:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  *ngFor=</span><span class="st">&quot;let name of names&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  name=</span><span class="st">&quot;{{name}}&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&gt;&lt;/app-hello&gt;</span></span></code></pre></div>
+<p>The asterisk, which is required, is an indication to Angular that
+this directive will manipulate the DOM, or the page’s document object
+model, in some way.</p>
+<p>One thing to be aware of when using this type of binding is that the
+expression inside the curly braces is always converted to a string. This
+can be an issue when you’re trying to bind to an attribute that expects
+a boolean or a number.</p>
+<h2 id="attribute-binding">Attribute Binding</h2>
+<p>There is another binding syntax that works with HTML attributes. If
+you want to set the value of an attribute to a value on your component,
+use square brackets around the attribute name. This is also a type of
+one-way data binding but instead of converting the value to a string,
+attribute binding will preserve the data type. For example, if we were
+binding a boolean in the TypeScript code, it will remain a boolean when
+passed to the HTML element attribute.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-hello</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  *ngFor=</span><span class="st">&quot;let name of names&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  [name]=</span><span class="st">&quot;name&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&gt;&lt;/app-hello&gt;</span></span></code></pre></div>
+<p>In general, if you’re working with values that should maintain their
+type (like booleans or numbers), you should use property binding. If
+you’re working with string values or you specifically need a string
+value, interpolation would be appropriate. I’ll show you more about that
+soon.</p>
+<h2 id="html-event-binding">HTML Event Binding</h2>
+<p>You can also bind to HTML events. Any event can become a trigger to
+execute a function on the component. The simplest way to illustrate that
+is to create a button and provide a click handler.</p>
+<p>You do that by surrounding the event name (in this case, click) with
+parenthesis. Then inside the quotes, call the component function you
+want to execute.</p>
+<p>You can pass parameters to the function, which is often the case when
+creating an event binding inside an *ngFor, passing the current looping
+variable to the event handler.</p>
+<p>In this case, just call toggle(). Let’s get rid of that
+<code>&lt;a&gt;</code> tag and replace it with the following code:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;button</span> <span class="er">(click)</span><span class="ot">=</span><span class="st">&quot;toggle()&quot;</span><span class="kw">&gt;</span>Click Me<span class="kw">&lt;/button&gt;</span></span></code></pre></div>
+<p>Back inside the component class itself, we’ll need to implement the
+toggle function. Add this code inside the app component, right after the
+names array.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>isToggled <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">toggle</span>() {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">isToggled</span> <span class="op">=</span> <span class="op">!</span><span class="kw">this</span><span class="op">.</span><span class="at">isToggled</span><span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now when you click the toggle button, the value of the
+<code>isToggled</code> variable will flip between true and false.</p>
+<h2 id="ngif">ngIf</h2>
+<p>The <code>isToggled</code> variable is useless until you do something
+with it. Add a new line inside the component’s template. That’s where
+ngIf comes in. It’s used to conditionally add or remove an element from
+the DOM based on an expression. If the expression evaluates to a truthy
+value, the element is added to the DOM. If it’s a falsy value, the
+element is removed. This makes ngIf very useful for controlling the
+visibility of elements based on conditions in your TypeScript code.
+Remember that, as a structural directive just like ngFor, ngIf is used
+with an asterisk (<em>) before the directive in your templates, like
+this: </em>ngIf=“condition”.</p>
+<p>In this case, let’s add a paragraph tag, give it an ngIf directive,
+and set its condition to “isToggled.” You should see output like Figure
+2.5.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p</span> <span class="er">*ngIf</span><span class="ot">=</span><span class="st">&quot;isToggled&quot;</span><span class="kw">&gt;</span>I am toggled on!!!<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
+<p><img src="image-4.png"
+alt="Figure 2.5, Hello from Neil! but with the new paragraph missing" />
+Now as you click the button, that paragraph will appear and disappear,
+as in Figure 2.6.</p>
+<p><img src="image-5.png"
+alt="Figure 2.6, Hello from Neil! but with the new paragraph visible" />
+Those are the basics you need to know to work with Angular.</p>
+<h2 id="summary">Summary</h2>
+<p>The concepts we’ve covered so far form the cornerstone of Angular
+development. They are the building blocks you need to get started with
+creating dynamic, robust Angular applications. However, Angular is a
+vast framework with numerous features and best practices. For more
+detailed and comprehensive information, the <a
+href="https://angular.io">Angular official documentation</a> is an
+invaluable resource. The raw URL is <code>https://angular.io</code>. It
+provides in-depth guidance on Angular’s various features, from basics to
+advanced topics. And rest assured, this is just the beginning.
+Throughout the rest of this book, we’ll delve deeper into Angular,
+exploring more complex concepts and features, building more intricate
+applications, and mastering this powerful framework.</p>
+</body>
+</html>

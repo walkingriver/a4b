@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>06-Resolve or Die – Error Handling Strate</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1
+id="resolve-or-die-error-handling-strategies-for-loading-data">Resolve
+or Die – Error Handling Strategies for Loading Data</h1>
+<h2 id="angular-route-guards-and-resolvers">Angular Route Guards and
+Resolvers</h2>
+<p>Angular provides a powerful mechanism for controlling access to
+routes in your application—Route Guards. These sentinel-like entities
+effectively ensure that certain conditions are met before a route is
+activated. Are you wondering if a user is authenticated? A Route Guard
+can verify that. If the user isn’t authenticated or doesn’t belong to
+the appropriate authorization group, access to the guarded route is
+denied. Route Guards embody the Single Responsibility Principle, are
+easily mockable for unit tests, and significantly enhance the security
+of your application. But this raises a question—where do Route Resolvers
+fit into this picture?</p>
+<p>Let’s explore Route Resolvers. Similar to Route Guards, Route
+Resolvers serve as gatekeepers, but with a nuanced difference. Rather
+than preventing the user from accessing a page, a Resolver ensures that
+certain preconditions are met before the route is fully activated.
+Typically, Resolvers preload necessary data for a page before it
+renders.</p>
+<p>Consider a scenario where you have a page showing order status to the
+user. The route might look something like this:
+<code>/orderstatus/:orderId</code>. A Route Guard would verify that the
+logged-in user is associated with the requested order. That’s the
+straightforward part, but what about a Route Resolver? Should you also
+ensure that the order details are preloaded before the page displays?
+The answer, as we’ll see, isn’t black and white—it depends. Let’s dive
+deeper and explore these crucial concepts.</p>
+<h2 id="what-data-are-you-loading">What Data Are You Loading?</h2>
+<p>In the above scenario, you need to load the order details: what items
+are on the order, which of those items have been shipped or on
+back-order, and the tracking information for the items that have been
+shipped. There may be other details your system has to load. Maybe the
+item descriptions and payment information come from other systems, and
+you want to display those, too. The questions you need to ask yourself
+are which data items are so important that you will not even want to
+display the page without them? And what if you cannot load those
+items?</p>
+<p>The answer to the first question is really an application design
+decision. Do you want to ensure that all the order details have been
+successfully loaded before the Order Status Page appears? Or is it
+acceptable to render the page partially, and allow the order details to
+appear as its data is returned? If the order status typically takes less
+than a second to load completely, waiting for it might be
+acceptable.</p>
+<h2 id="what-if-there-are-errors">What If There Are Errors?</h2>
+<p>Depending on which pattern you choose, you then need to decide what
+to do if one or more pieces of data cannot be loaded. A service could be
+down, the network could be flaky, etc. It really does not matter. What
+do you do?</p>
+<h3 id="give-up-on-error">Give up on Error</h3>
+<p>If you are using a Route Resolver, and it encounters an unhandled
+exception, the route will not resolve, and your page will simply not
+render. This is obviously not ideal, and you should throw out this idea
+immediately.</p>
+<p>You could catch and log the error, setting the data being loaded to
+an empty or default object, and then letting the resolver complete
+successfully. If you do that, you need to think of what the rendered
+page would look like. Is it still useful for the person trying to load
+the page? If the answer is yes, then perhaps this is an acceptable
+solution. You can actually make this choice a case-by-case decision,
+based on the importance of data being loaded. If it is not “mission
+critical”, go ahead and let the page load.</p>
+<h3 id="redirect-to-an-error-page">Redirect to an Error Page</h3>
+<p>On the other hand, maybe your data is so critical that not a smidgen
+of the page should appear until it is all available. If any missing
+piece of data causes the page to be useless, consider redirecting to an
+error page with an explanation of what went wrong. You could optionally
+provide a link on the error page, allowing the user to retry. After all,
+it may have been a temporary blip.</p>
+<p>Here is some sample code that illustrates one way to redirect to an
+error page if any errors are encountered in the Resolver. The primary
+advantage to this method is that the page itself need not be modified,
+or even know about the resolver. If the component loads, you can be sure
+that the data is there. Thus, the code I am showing here is the resolver
+itself, and I am not showing the page component.</p>
+<p>The Resolver shown below is an example of Angular’s functional
+resolver. The class-based resolvers have been deprecated and will be
+removed from Angular soon.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> dataResolverResolver<span class="op">:</span> ResolveFn<span class="op">&lt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  boolean</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="op">=</span> (route<span class="op">,</span> state) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> dataService <span class="op">=</span> <span class="fu">inject</span>(DataService)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> router <span class="op">=</span> <span class="fu">inject</span>(Router)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  dataService<span class="op">.</span><span class="fu">getData</span>()<span class="op">.</span><span class="fu">pipe</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>((data) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Here we would do something with the data</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">catchError</span>((error) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      router<span class="op">.</span><span class="fu">navigateByUrl</span>(<span class="st">&#39;/error&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> error<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h2 id="maybe-not-use-a-resolver">Maybe Not Use a Resolver</h2>
+<p>Going back to the Order Status scenario, imagine that there is really
+only one piece of data that would make the entire page useless. And even
+then, if the page renders without this data, and instead displays an
+inline error, what is the ultimate harm?</p>
+<p>Allow me to suggest another option. Consider not using a Route
+Resolver at all.</p>
+<h3 id="loading-indicator">Loading Indicator</h3>
+<p>A common pattern I am sure you have seen is to render the complete
+page, but with no data. The page displays a “Loading” indicator of some
+sort while the order details are retrieved, with the page in a
+non-interactive state. Once the details are available, the indicator
+disappears and the user can interact with the page at that point. This
+is a pretty common pattern, which we have all seen.</p>
+<p>Here is some sample code that implements this pattern, using the
+loading indicator from the last chapter.</p>
+<p>The <code>getData()</code> function is asynchronous so that it can
+use promises. I would normally use RxJS throughout my code, but I didn’t
+want it to get in the way of what we’re discussing here.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> LoadingExampleComponent</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">implements</span> OnInit</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  errorText <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  isLoading <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Alternative service injection</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// dataService = inject(DataService);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>(<span class="kw">private</span> dataService<span class="op">:</span> DataService) {}</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ngOnInit</span>() {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">getData</span>()<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">getData</span>() {</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">errorText</span> <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">isLoading</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">data</span> <span class="op">=</span> <span class="cf">await</span> <span class="fu">firstValueFrom</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">dataService</span><span class="op">.</span><span class="fu">getData</span>()<span class="op">,</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      )<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">errorText</span> <span class="op">=</span> error<span class="op">.</span><span class="at">message</span><span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">finally</span> {</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">isLoading</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And this is some markup that would go with it. The error message
+<code>&lt;p&gt;</code> tag, including the retry link, is only displayed
+if the string is not empty.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p&gt;</span>Data from service: {{ data }}<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p</span> <span class="er">*ngIf</span><span class="ot">=</span><span class="st">&quot;errorText&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  Error: {{ errorText }}. You can</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;a</span> <span class="er">(click)</span><span class="ot">=</span><span class="st">&quot;getData()&quot;</span><span class="kw">&gt;</span>retry<span class="kw">&lt;/a&gt;</span>, or</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;/home&quot;</span><span class="kw">&gt;</span>return home<span class="kw">&lt;/a&gt;</span>.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/p&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;app-loading</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ot">  label=</span><span class="st">&quot;Loading data now...&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ot">  [shown]=</span><span class="st">&quot;isLoading&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/app-loading&gt;</span></span></code></pre></div>
+<h2 id="skeleton-text">Skeleton Text</h2>
+<p>Yet another pattern renders the page with skeleton text, gray text
+bars in place of where the details will eventually appear. The page is
+fully interactive, giving the impression of faster performance, while
+the other details load. As the data is loaded successfully, it replaces
+the skeleton text. Any piece of data that fails to load could be
+replaced with an error message and a retry link.</p>
+<p>For this demo, I selected the ngx-skeleton-loader from <a
+href="https://www.npmjs.com/package/ngx-skeleton-loader">npmjs</a>
+(https://www.npmjs.com/package/ngx-skeleton-loader).</p>
+<p>Here is some sample code to implement this pattern. It is mostly the
+same, with very minimal UI changes. I find this pattern to be a lot
+cleaner, because the error message and skeleton text visibility are both
+managed entirely by the view layer (i.e., the HTML).</p>
+<p>There is more markup than in the prior example, primarily due to the
+inclusion of the skeleton text. The method of displaying the error and
+retry link is identical. However, the skeleton text is hidden as soon as
+either the data or the error message has a value.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">*ngIf</span><span class="ot">=</span><span class="st">&quot;errorText </span><span class="er">&amp;&amp;</span><span class="st"> !isLoading&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Error<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;p&gt;</span>{{ errorText }}<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">*ngIf</span><span class="ot">=</span><span class="st">&quot;isLoading&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;ngx-skeleton-loader&gt;&lt;/ngx-skeleton-loader&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;p&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;ngx-skeleton-loader</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ot">      [count]=</span><span class="st">&quot;3&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&gt;&lt;/ngx-skeleton-loader&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/p&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<p>Either of these alternative patterns can be handled by kicking off
+the data load by clicking a button or during ngOnInit, calling into the
+same data service the Route Resolver would call. This strategy maintains
+a proper separation of concerns, and allows the service to be mocked
+during testing.</p>
+<h2 id="demo">Demo</h2>
+<p>Here is a demo I created with the above code to show all three of
+these options side-by-side. The demo consists of three Angular page
+components, each attempting to load some data from a common service, as
+you can see in Figure 6.1. The service simply waits 3.5 seconds and
+throws an error, as shown in Figure 6.2.</p>
+<h3 id="loading">Loading</h3>
+<figure>
+<img src="image-10.png" alt="Figure 6.1 - Loading Text" />
+<figcaption aria-hidden="true">Figure 6.1 - Loading Text</figcaption>
+</figure>
+<h3 id="error-state">Error State</h3>
+<figure>
+<img src="image-11.png" alt="Figure 6.2 - Error State" />
+<figcaption aria-hidden="true">Figure 6.2 - Error State</figcaption>
+</figure>
+<p>If you wish to see the demo code in its entirety, please see the
+GitHub repo included with the book’s extras.</p>
+<p>Note, I used a different “loading” indicator because the one we wrote
+in the last chapter takes up the whole page. Feel free to swap it out
+for that one as an exercise if you wish.</p>
+<h2 id="summary">Summary</h2>
+<p>I wrote this in response to a real situation I had in a recent
+project. The main page needed four different pieces of data, all loaded
+from separate sources. The implementation used a Route Resolver to
+ensure all the data loaded before the page appeared. During testing, one
+of the services was down and was timing out after 30 seconds. This means
+the user was kept staring at a white screen until the service gave up.
+Obviously, this experience is not ideal, and led me to research other
+(better?) options.</p>
+<p>As part of that research, I came up with some rules guidelines for
+deciding how best to load asynchronous data:</p>
+<ul>
+<li>If your page absolutely cannot be shown unless/until all data is
+loaded, use a resolver.</li>
+<li>Do not ignore errors in your resolver, or your page will not render
+and the user will be stuck in limbo.</li>
+<li>Redirect the user to an error page, optionally with a retry
+button.</li>
+<li>If your page is still somewhat useful with partial data, load the
+data asynchronously in ngOnInit.</li>
+<li>Use skeleton text or a loading indicator.</li>
+</ul>
+<p>Try all the options yourself to see how each one behaves and choose
+the option that works best for your projects.</p>
+</body>
+</html>

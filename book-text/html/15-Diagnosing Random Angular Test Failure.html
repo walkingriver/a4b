@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>15-Diagnosing Random Angular Test Failure</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="diagnosing-random-angular-test-failures">Diagnosing Random
+Angular Test Failures</h1>
+<p>Have you ever had an intermittent or random failure in your unit
+tests? I did, and I was pulling my hair out trying to discover the
+problem. Below I will describe how I finally managed to find the
+offending tests and solve the problem.</p>
+<h2 id="tldr">TLDR</h2>
+<p>Here are the things I discovered during this process:</p>
+<ul>
+<li>Understand that tests run in no particular order, and that is
+ideally what you want.</li>
+<li>Turn off random execution to help find the culprit.</li>
+<li>If sequential execution does not help, try various random “seed”
+values until the tests are failing consistently.</li>
+<li>Isolate the failing test or test suite by
+using fdescribe, fit, xdescribe, and xit to turn tests on or off
+selectively.</li>
+<li>Pay close attention to asynchronous code and test doubles.</li>
+<li>Ensure your test doubles are typed correctly, especially your mock
+services.</li>
+</ul>
+<h2 id="longer-explanation">Longer Explanation</h2>
+<p>I am using Angular 10 in this specific project, writing unit tests
+with Jasmine, and running them with Karma.</p>
+<p>My karma-jasmine configuration when I began was completely empty,
+meaning I was using the defaults. Not understanding those defaults
+caused much of my problem. Out of the box, your unit tests are run in a
+random order. I was vaguely aware of this, but it had completely slipped
+my mind at the time. If you take nothing else away from my story,
+remember this: Whenever you experience intermittent or random test
+failures, you can almost be sure that one test is causing another to
+break. The trouble is figuring out which combination.</p>
+<h2 id="after-the-first-failure">After the First Failure</h2>
+<p>As soon as I saw my first failure, I naively assumed it was the most
+recent test I added. Naturally, I removed it. At that point, the failure
+went away. I spent the next half hour trying to rewrite the “offending”
+test to figure out how it caused a failure in an unrelated test. The
+fact that the new test and the failing test were unrelated should have
+been my first clue that something else was at work here.</p>
+<h2 id="start-disabling-tests">Start Disabling Tests</h2>
+<p>As I write this, my project has 153 unit tests. The failure was
+occurring in an afterAll function, which I did not even have. The error
+referred to a specific component, but not a specific test. I could not
+even determine which test to skip. Instead, I decided to start running a
+subset of tests by selectively disabling some of the other tests and
+test suites.</p>
+<h2 id="disable-random-test-ordering">Disable Random Test Ordering</h2>
+<p>By this point, I was reasonably sure the problem was one test causing
+a failure in another one. The trick now was to figure out which one. On
+a whim, I decided to turn off random ordering in the Jasmine
+configuration. As I said, I am running my tests with the Karma test
+runner. So, inside the karma.conf.js file, I simply needed to add some
+Jasmine-specific configuration to the client section.</p>
+<p>Before, that section looked like this:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>client<span class="op">:</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">clearContext</span><span class="op">:</span> <span class="kw">false</span><span class="op">;</span> <span class="co">// leave Jasmine Spec Runner output visible in browser</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To disable random test order, I added this:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>client<span class="op">:</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">clearContext</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="co">// leave Jasmine Spec Runner output visible in browser</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">jasmine</span><span class="op">:</span> {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">random</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This would guarantee that my tests would run “in order,” starting
+with the first spec.ts file it finds and then running the tests from top
+to bottom in each file. It occurred to me that this probably would not
+reveal any new insights. I was right. All tests passed. The good news is
+that the test run was now repeatable. Every test run passed now.</p>
+<p>Did it solve my problem? Nope, but at least I felt I was making
+progress.</p>
+<h2 id="you-can-specify-the-random-seed">You Can Specify the Random
+Seed!</h2>
+<p>The next thing I did was to turn random ordering back on, but this
+time provide my own random seed. If you are not familiar with a seed, it
+is a number used to initialize the random number generator. The benefit
+of this approach is that using the same value to seed the random number
+generator will provide the identical sequence of random values on
+subsequent runs. Thus, once I found a seed that caused my test failure
+to show itself, I could continue using that seed during my
+investigation.</p>
+<p>I started with the seed 1234. Because I had no idea what value might
+cause the problem, it really did not matter. On the first run with that
+value, all the tests passed, so that was no help. I continued changing
+the seed value until my test failed. Fortunately, it only took me a
+couple of attempts. I ended up with a configuration like this:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>client<span class="op">:</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">clearContext</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="co">// leave Jasmine Spec Runner output visible in browser</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">jasmine</span><span class="op">:</span> {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">random</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">seed</span><span class="op">:</span> <span class="st">&#39;12345&#39;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="start-isolating-tests">Start Isolating Tests</h2>
+<p>Now that I could reliably reproduce the problem, it was time to start
+isolating the failed test from the working ones.</p>
+<p>On my first attempt, I simply ran only the failing test in that test
+suite, by changing <code>describe</code> to <code>fdescribe</code>. This
+block had only one <code>it</code> block, so I was only running a single
+test from this suite.</p>
+<p>As I expected would happen, the test passed. When run in isolation
+from the other tests in the test suite, it worked just fine.</p>
+<p>As a sanity check, I disabled every other test in the project, and as
+expected, the remaining test passed.</p>
+<p>Next, I began turning on one test at a time. I considered turning on
+half, and then the other half. However, this particular suite only had
+ten tests in it, so I simply started at the top and turned them on one
+by one. As luck would have it, the very first test I enabled caused the
+problematic test to fail.</p>
+<p>Now the real investigation began. What code did the first test run
+that caused the second test to fail?</p>
+<h2 id="give-asynchronous-code-a-closer-look">Give Asynchronous Code a
+Closer Look</h2>
+<p>As I looked closer at the failing test, I noticed that it was testing
+a failure scenario. A passing test actually meant that an error occurred
+inside my component. This test used the <code>async/await</code> pattern
+to wait on the asynchronous service call it had to make.</p>
+<p>I had seen this problem before, and almost certainly knew what had
+caused it. The function in many of my components that made asynchronous
+service calls were not returning the promise to the caller. Consider
+this block of code (not my actual code):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Component function</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getSomeData</span>() {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Service function</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">service</span><span class="op">.</span><span class="fu">getData</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">then</span>( data <span class="kw">=&gt;</span> { <span class="op">...</span> })</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">catch</span>( error <span class="kw">=&gt;</span> { <span class="op">...</span> })</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In this code, the promise returned
+by <code>service.getData()</code> is being returned by the
+component’s <code>getSomeData()</code> function to its caller. If you
+forget to do that, the testing code will have nothing to
+<code>await</code>. My component had many such functions, and I had been
+meticulously going through them all to make sure they returned the
+service call’s promise. I immediately checked the particular function
+being exercised by the failing test. To my surprise, it was fine.</p>
+<p>That, however, led me to another realization. The test itself was
+bad. It looked like this:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">it</span>(<span class="st">&#39;should set an error if it throws&#39;</span><span class="op">,</span> <span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// service here is a test double, a mock of the real service</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  service<span class="op">.</span><span class="at">getData</span><span class="op">.</span><span class="fu">rejects</span>({ message<span class="op">:</span> <span class="st">&#39;test-error&#39;</span> })<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  fixture<span class="op">.</span><span class="fu">detectChanges</span>()<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">await</span> component<span class="op">.</span><span class="fu">getSomeData</span>()<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect</span>(component<span class="op">.</span><span class="at">error</span>)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>The testing code was using <code>async/await</code>, but had
+no <code>try/catch</code>! I decided that I would rewrite the test
+without <code>async/await</code>, instead using <code>catch</code>. The
+modified test looked something like this:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">it</span>(<span class="st">&#39;should set an error if it throws&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// service here is a test double, a mock of the real service</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  service<span class="op">.</span><span class="at">getData</span><span class="op">.</span><span class="fu">rejects</span>({ message<span class="op">:</span> <span class="st">&#39;test-error&#39;</span> })<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  fixture<span class="op">.</span><span class="fu">detectChanges</span>()<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  component<span class="op">.</span><span class="fu">getSomeData</span>()<span class="op">.</span><span class="fu">catch</span>((err) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect</span>(component<span class="op">.</span><span class="at">error</span>)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>At last, I was pretty sure I had found the problem. I eagerly enabled
+all units tests and reran the tests with the same seed I had been using.
+The problematic test failed again, with the exact same error!</p>
+<h2 id="new-test-suite">New Test Suite</h2>
+<p>At this point, I decided to start with a clean slate. I disabled all
+tests in that component’s test suite. Then I used the Angular CLI to
+create a brand new component, complete with its unit test
+boilerplate.</p>
+<p>Once that was done, I painstakingly began copying tests one at a time
+from the old test suite into the new one. I started simply, copying just
+enough code to initialize the component. That test failed due to missing
+service doubles. Next, I copied those test doubles (mostly service
+mocks) into the new suite.</p>
+<p>With the test doubles in place, my component creation test passed.
+One down, nine to go.</p>
+<p>The next test up was the failing one. It did something only one other
+test in the suite did. It changed the behavior of one of my mock
+services. Could that be the piece I had been missing?</p>
+<h2 id="suspect-your-test-doubles">Suspect Your Test Doubles</h2>
+<p>I deleted my test doubles and reentered them individually. While
+doing this, I noticed that two of my mock services were created as
+object literals directly in the test suite. This was odd, as I also had
+a mock service defined as a class in another file. I decided I should
+try to use that instead.</p>
+<p>The code used to look something like this:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> service <span class="op">=</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">getData</span><span class="op">:</span> () <span class="kw">=&gt;</span> <span class="bu">Promise</span><span class="op">.</span><span class="fu">resolve</span>({data})<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>providers<span class="op">:</span> [</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">provide</span><span class="op">:</span> DataService<span class="op">,</span> <span class="dt">useValue</span><span class="op">:</span> service }</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div>
+<p>I moved the <code>getData</code> call into my Mock Service and
+changed the provider to look like this:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> service<span class="op">:</span> DataService<span class="op">;</span> <span class="co">// Notice this is strongly-typed now</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>providers<span class="op">:</span> [{ <span class="dt">provide</span><span class="op">:</span> DataService<span class="op">,</span> <span class="dt">useClass</span><span class="op">:</span> DataService }]<span class="op">;</span></span></code></pre></div>
+<p>I had left in the variable declaration so that I could redefine its
+behavior in the error path. But now I had a compiler error. This line in
+my failing test was no longer valid.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>service<span class="op">.</span><span class="at">getData</span><span class="op">.</span><span class="fu">rejects</span>({ <span class="dt">message</span><span class="op">:</span> <span class="st">&#39;test-error&#39;</span> })<span class="op">;</span></span></code></pre></div>
+<p>That is because service was now strongly-typed to be a DataService,
+and <code>getData</code> returned a promise. It had no function named
+<code>rejects</code>. The solution was to replace the
+<code>getData</code> function completely, but just for this test.</p>
+<p>Recall that I said this test was inside its own <code>describe</code>
+block, so I added a <code>beforeEach</code> to it, where I could replace
+the behavior of the <code>getData</code> function to reject instead of
+resolve the promise. Now my test looked something like this:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(<span class="st">&#39;getSomeData (error path)&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Redefine service.getData here, outside the test itself.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">beforeEach</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    service<span class="op">.</span><span class="at">getData</span> <span class="op">=</span> sinon</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">stub</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">rejects</span>({ <span class="dt">message</span><span class="op">:</span> <span class="st">&#39;test-error&#39;</span> })<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">it</span>(<span class="st">&#39;should set an error if it throws&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// service here is a test double, a mock of the real service</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    fixture<span class="op">.</span><span class="fu">detectChanges</span>()<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    component<span class="op">.</span><span class="fu">getSomeData</span>()<span class="op">.</span><span class="fu">catch</span>((err) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">expect</span>(component<span class="op">.</span><span class="at">error</span>)<span class="op">.</span><span class="fu">toBeTruthy</span>()<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Here I am using <code>sinon</code> to create the stub, but you can
+use a similar strategy with Jasmine’s own functions.</p>
+<p>The <code>beforeEach</code> on the overall test suite itself creates
+a brand new instance of the mock service before each test. Then, in this
+test, its <code>getData</code> function is replaced with a new function
+that returns a rejected promise instead.</p>
+<p>I was feeling pretty good about where this was heading. I enabled all
+the tests and reran them. All passed. Finally, I removed the seed value
+from the Jasmine configuration and let the tests run in a random order.
+The test has been passing ever since.</p>
+<h2 id="summary">Summary</h2>
+<p>I have been careful not to show any of the actual test code that
+caused my problem, but instead just enough code to get my point across.
+My goal was to discuss how to isolate the problems in your tests, rather
+than discuss testing strategy. To that end, I hope I have succeeded.</p>
+</body>
+</html>

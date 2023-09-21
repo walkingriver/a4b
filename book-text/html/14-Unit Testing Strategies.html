@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>14-Unit Testing Strategies</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="unit-testing-strategies">Unit Testing Strategies</h1>
+<p>Everyone agrees that Test Driven Development (TDD) is a good thing,
+right? Right? If you agree that tests are important, you probably write
+a lot of tests. You might even have a code coverage tool that helps you
+know how much of your code is tested. Great so far. But here is my
+question. Are you testing the right code? Are you testing your code, or
+mine?</p>
+<h2 id="test-your-own-code">Test your own code</h2>
+<p>I have been doing a lot of code reviews lately, and there is one
+overwhelming pattern I see repeated. There is a lot of testing being
+done of code that is not part of the system under test (SUT). In other
+words, the unit test writers are spending too much time writing tests
+for code that is outside of their control.</p>
+<p>Consider the following scenario. Your app makes calls to a back-end
+web service to retrieve customer data. You need to log each request and
+response, but you also need to ensure that any private information is
+stripped from the log. For your first pass, you decide to create a
+function that looks something like this:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getCustomer</span>(customerId) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> httpService</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;/customers/&#39;</span> <span class="op">+</span> customerId)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(<span class="kw">function</span> (response) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (response<span class="op">.</span><span class="at">statusCode</span> <span class="op">===</span> <span class="dv">200</span>) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> scrubbed <span class="op">=</span> <span class="fu">scrub</span>(response)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        logger<span class="op">.</span><span class="fu">log</span>(scrubbed)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> response<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        logger<span class="op">.</span><span class="fu">error</span>(response)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="how-do-you-test-that-function">How do you test that
+function?</h2>
+<p>There are a number of problems with that function, which make it very
+difficult to test. As I am fond of telling anyone who will listen: if
+your code is hard to test, it is probably an indication of a design
+problem. Let us take a look at why this function is hard to test.</p>
+<ol type="1">
+<li>It relies on an HTTP Service (httpService).</li>
+<li>It relies on a logger.</li>
+<li>It makes an assumption that the response object contains a status
+code.</li>
+<li>It passes the raw HTTP response to the scrub function.</li>
+<li>It returns a promise.</li>
+<li>It simply does too much.</li>
+</ol>
+<h2 id="it-relies-on-an-http-service-and-logger">It Relies on an HTTP
+Service and Logger</h2>
+<p>To test this function as written, you would at least need to mock the
+httpService and logger. There are plenty of ways to do that, but I argue
+that it is unnecessary at best, and counter-productive at worst.</p>
+<h2 id="it-passes-the-raw-http-response-to-the-scrub-function">It Passes
+the Raw HTTP Response to the Scrub Function</h2>
+<p>This is related to the prior one. It is also pretty easy to fix. Why
+does the scrub function need to know anything about HTTP responses?
+Consider insulating all of your HTTP responses from the functions that
+use the data. Instead of passing the raw response, extract the pertinent
+data from the response, and pass that to the scrub function.</p>
+<h2
+id="it-makes-an-assumption-that-the-response-object-contains-a-status-code">It
+Makes an Assumption That the Response Object Contains a Status Code</h2>
+<p>Do not make your functions any smarter than they have to be. This
+tiny function is already much larger than it should be, and testing it
+appropriately requires more effort than is warranted. If we break the
+function into its constituent parts, testing the application logic will
+become much simpler.</p>
+<h2 id="it-returns-a-promise">It Returns a Promise</h2>
+<p>This one really isn’t too bad. Modern JavaScript testing frameworks
+make it far simpler to test promises than it used to be. However, it is
+far simpler to test the asynchronous and synchronous functions in
+isolation.</p>
+<h2 id="it-does-too-much">It Does Too Much</h2>
+<p>The <code>getCustomer</code> function does not adhere to the Single
+Responsibility Principle. Yes, it gets the customer from a back-end
+service. Then it scrubs the private data from the service’s response,
+which is obviously a good thing in today’s privacy minded society.
+Scrubbing the data is a synchronous call, and by itself should be easily
+testable. Then it returns the original unscrubbed response to the
+caller, whom we can assume needs this data.</p>
+<h1 id="refactor-time">Refactor Time</h1>
+<p>Let us rewrite the function into its constituent parts and see how we
+might create more testable code.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getCustomer</span>(customerId) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> httpService<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;/customers/&#39;</span> <span class="op">+</span> customerId)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(processResponse)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">processResponse</span>(response) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (response<span class="op">.</span><span class="at">statusCode</span> <span class="op">===</span> <span class="dv">200</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">handleSuccess</span>(response<span class="op">.</span><span class="at">data</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">handleError</span>(response<span class="op">.</span><span class="at">err</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleSuccess</span>(data) {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  logger<span class="op">.</span><span class="fu">log</span>(<span class="fu">scrub</span>(data))<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleError</span>(error) {</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  logger<span class="op">.</span><span class="fu">error</span>(error)<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {}<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">scrub</span>(data) {</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Remove Private Information (PII) from data</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> newData<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="what-have-we-done">What have we done?</h2>
+<p>First, <code>getCustomer</code> is still the entry point into this
+particular piece of functionality. Any calling client need not be
+concerned with these changes, as the public interface hasn’t
+changed.</p>
+<p>You might be thinking that this is still hard to test, and you will
+still end up mocking the <code>httpService</code> and
+<code>logger</code> to get to 100% coverage. However, 100% Test coverage
+should not be your goal. Instead, your goal should be to
+test <em>your</em> code. Testing someone else’s code is
+counterproductive. Don’t do it.</p>
+<h2 id="what-tests-do-we-need">What tests do we need?</h2>
+<p>I submit that there is no need to write a test for
+<code>getCustomer</code>. All it does is makes an HTTP call and
+delegates the result to <code>processResponse</code>. Do you need to
+test that the HTTP service works? I do not see why. Save that for
+testing the error conditions you are likely to receive, to ensure they
+are handled appropriately.</p>
+<h2 id="the-processresponse-function">The <code>processResponse</code>
+function</h2>
+<p>So, let us start with <code>processResponse</code>.</p>
+<p><code>processResponse</code> still assumes four things:</p>
+<ol type="1">
+<li>The response object being passed to it has a
+<code>.statusCode</code> property.</li>
+<li>That a value of 200 means success and anything else is an
+error.</li>
+<li>A valid response object has a <code>.data</code> property.</li>
+<li>An invalid response object has a <code>.error</code> property.</li>
+</ol>
+<p>If you are just testing this function, in isolation, there are a few
+strategies I recommend employing.</p>
+<p>Ideally, I would write two tests (after all, there are two code
+paths). The first would pass a request object with a status code of 200.
+The other would pass it without that status code.</p>
+<p>Next, I would replace at test time the <code>handleError</code> and
+<code>handleSuccess</code> functions with a shim that I can spy on from
+the test. That way, I am truly only testing the error checking logic. I
+do not care what those two functions do: I only care that the right one
+is called.</p>
+<h2
+id="handleerror-and-handlesuccess-functions"><code>handleError</code>
+and <code>handleSuccess</code> functions</h2>
+<p>These are also easily testable in isolation.
+<code>handleSuccess</code> scrubs and logs the data. Those two functions
+again would be shimmed from the unit test itself, and my test would
+simply verify that they were indeed called. Then the function returns
+the unmodified data object. So, my test would pass in a dummy object I
+could inspect afterwards to ensure that it was returned unaltered.</p>
+<p>Likewise, testing <code>handleError</code> just needs to ensure that
+the logger’s error function is called.</p>
+<p>In both of these functions’ tests, if <code>logger</code> is an
+external service that gets injected, it would be an ideal candidate to
+create a mock logger at test time. It is also fairly easy to mock
+something with a small API footprint (In this case, <code>logger</code>
+only has <code>log</code> and <code>error</code> functions exposed). We
+can mock the service, replacing those two functions with a spy, and
+ensure they are called at the appropriate time.</p>
+<h2 id="the-scrub-function">The <code>scrub</code> Function</h2>
+<p>Ultimately, the piece of business we really care about in this block
+of code is the <code>scrub</code> function. Writing a test for this one
+has become almost trivial. It is a side-effect-free function that takes
+a single object as input, and returns a new object as output.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Unit testing code does not need to be hard. If you spend some time
+thinking about what your tests need to accomplish, you can often find
+ways to refactor the code to make it more testable, and provide tests
+that are more meaningful.</p>
+<p>The ability to mock existing services is a tool that is worth having.
+And as you can see, I found a place where mocking made testing easier
+rather than harder.</p>
+<p>Before you start mocking everything, consider what it is you are
+trying to test. Spend some time separating your code from existing code
+written by others. Then test just your code and call it a day. Your
+family and coworkers will thank you, because you may end up being a more
+pleasant person to have around.</p>
+<p>By the way, did you notice I don’t have to test the promise
+anymore?</p>
+<p>That was intentional and it makes testing much simpler.</p>
+</body>
+</html>

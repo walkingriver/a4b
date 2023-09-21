@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>03-Angular CLI Quick Reference</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="angular-cli-quick-reference">Angular CLI Quick Reference</h1>
+<p>One of the most powerful tools in the Angular ecosystem is the
+Angular Command Line Interface (CLI), also known as the <code>ng</code>
+CLI. The Angular CLI is an indispensable tool for Angular developers,
+providing a comprehensive set of commands that simplify and streamline
+the process of creating, scaffolding, and managing Angular applications.
+The CLI abstracts away much of the complexity and boilerplate code that
+comes with setting up a new Angular project, allowing you to focus on
+writing your application logic. The Angular CLI also supports a wide
+variety of custom tasks, reducing the need for manual configuration and
+setup in many project scenarios.</p>
+<h2 id="installing-nodejs-and-npm">Installing NodeJS and NPM</h2>
+<p>The most straightforward way to install the Angular CLI is through
+npm, the Node Package Manager, which is the default package manager for
+Node.js. That means you’ll need to install NodeJS and npm first. Most
+systems probably don’t include them by default, so we’ll assume you
+don’t have them. If you do, feel free to skip this section.</p>
+<h3 id="for-windows-and-macos">For Windows and macOS:</h3>
+<p>For Windows, macOS, and Linux, you can download Node.js and npm
+directly from the official Node.js website (https://nodejs.org/). The
+site provides pre-built installers for various platforms.</p>
+<ol type="1">
+<li>Visit the Node.js downloads page <a
+href="https://nodejs.org/en/download/">here</a>.
+(https://nodejs.org/en/download/)</li>
+<li>Choose the appropriate installer for your platform (Windows or
+macOS).</li>
+<li>Download and run the installer, which will install both Node.js and
+npm on your system.</li>
+</ol>
+<h3 id="for-linux">For Linux:</h3>
+<ol type="1">
+<li>Most Linux distributions have Node.js available in their package
+repositories, which also includes npm. You can install Node.js and npm
+using your distribution’s package manager. For example, on Ubuntu or
+Debian, you can use the following commands in your terminal:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install nodejs npm</span></code></pre></div>
+<ol start="2" type="1">
+<li>Alternatively, you can also download and run the Node.js installer
+from the Node.js website, similar to the process for Windows and
+macOS.</li>
+</ol>
+<h2 id="alternative-node-version-manager">Alternative Node Version
+Manager</h2>
+<p>Node Version Manager (NVM) is a useful utility for managing multiple
+active Node.js versions. It allows you to install, uninstall, and switch
+between different versions of Node.js with ease. While NVM is a powerful
+tool, a detailed explanation of its use is beyond the scope of this
+book.</p>
+<p>NVM exists for various platforms:</p>
+<ul>
+<li>For macOS and Linux, you can find the NVM repository <a
+href="https://github.com/nvm-sh/nvm">here</a>.
+(https://github.com/nvm-sh/nvm)</li>
+<li>For Windows, a similar utility named “nvm-windows” is available. You
+can find it <a
+href="https://github.com/coreybutler/nvm-windows">here</a>.
+(https://github.com/coreybutler/nvm-windows)</li>
+</ul>
+<p>Even though we won’t dive deep into NVM in this book, it’s worth
+exploring as it can significantly streamline your Node.js development
+process.</p>
+<h2 id="installing-the-angular-cli">Installing the Angular CLI</h2>
+<p>Once Node.js and npm are installed, you can install the Angular CLI
+globally on your system by running the following command in your
+terminal or command prompt:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @angular/cli</span></code></pre></div>
+<h2 id="getting-help">Getting Help</h2>
+<p>Once installed, getting help is only a few keystrokes away.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> help <span class="op">&lt;</span>command-name <span class="er">(</span><span class="ex">Default:</span> all<span class="kw">)</span><span class="op">&gt;</span></span></code></pre></div>
+<p>This command can be used to get general help or help on a specific ng
+command.</p>
+<h2 id="starting-a-new-angular-project">Starting a New Angular
+Project</h2>
+<p>This command creates a new directory and a new Angular app eg. “ng
+new [name]”.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> new <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<p>Some of the more common options are:</p>
+<ul>
+<li><code>--dry-run (Boolean) (Default: false)</code> Run through
+without making any changes.</li>
+<li><code>--skip-install (Boolean) (Default: false)</code> Skip
+installing packages.</li>
+<li><code>--skip-git (Boolean) (Default: false)</code> Skip initializing
+a git repository.</li>
+<li><code>--standalone (Boolean) (Default: false)</code> Creates an
+application based upon the standalone API, without NgModules.</li>
+<li><code>--style (String) (Default: css)</code> The style file default
+extension. Your choices are css, scss, sass, or less.</li>
+<li><code>--prefix (String) (Default: app)</code> The prefix to use for
+all component selectors.</li>
+<li><code>--routing (Boolean) (Default: false)</code> Generate a routing
+module.</li>
+</ul>
+<p>If you run <code>ng new</code> without any parameters, the Angular
+CLI will walk you through everything.</p>
+<h2 id="generating-project-assets">Generating Project Assets</h2>
+<p>This command creates (generates) components, routes, services,
+interfaces, pipes, etc. with a simple command.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> generate <span class="op">&lt;</span>blueprint<span class="op">&gt;</span> <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<p>By default, the CLI will also create simple test files for all of
+these.</p>
+<p>Available schematics:</p>
+<ul>
+<li>appShell</li>
+<li>application</li>
+<li>class</li>
+<li>component</li>
+<li>directive</li>
+<li>enum</li>
+<li>guard</li>
+<li>interceptor</li>
+<li>interface</li>
+<li>library</li>
+<li>module</li>
+<li>pipe</li>
+<li>service</li>
+<li>serviceWorker</li>
+<li>webWorker</li>
+</ul>
+<h2 id="common-flags-for-schematics">Common Flags for Schematics</h2>
+<p>These flags are commonly used with most of the schematics:</p>
+<ul>
+<li><code>--flat</code> (Boolean): Flag to indicate if a directory is
+created. By default, ng CLI will create a separate folder for most
+blueprints, even if there is only one file. If you know you won’t be
+creating multiple files (templates, tests, etc.), you can pass true to
+this flag, and the CLI won’t create the separate folder.</li>
+<li><code>--spec</code> (Boolean): Specifies if a spec file is
+generated. Pass false to this flag to prevent the CLI from generating
+test files for you. Use this with caution. There are very few reasons
+not to have unit tests for your code.</li>
+<li><code>--app</code> (String): Specifies app name to use.</li>
+<li><code>--standalone</code> (Boolean): Specifies whether a component
+or directive should be created without an existing NgModule.</li>
+<li><code>--module</code> (String): Allows specification of the
+declaring module. By default, the item being generated will be attached
+to the “closest containing module.” The CLI will walk up the folder
+tree, looking for a module. Specifying a different module here will
+override that behavior.</li>
+</ul>
+<p>There are other options available to many of these blueprints,
+further customizing their behavior.</p>
+<h2 id="starting-a-development-web-server">Starting a Development Web
+Server</h2>
+<p>Builds and serves your app, rebuilding on file changes.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> serve <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<p>When running <code>ng serve</code>, the compiled output is served
+from memory, not from disk. This means that the application being served
+is not located on disk in the <code>dist</code> folder. By default,
+<code>ng serve</code> will serve your application on
+http://localhost:4200. It will not, however, open a web browser for you.
+You can override these settings through the following options:</p>
+<ul>
+<li><code>--host</code> (String): Allows you to change the host being
+served.</li>
+<li><code>--port</code> (Number): Allows you to override the port
+served.</li>
+<li><code>--open</code>: Causes the CLI to open your default browser
+automatically.</li>
+</ul>
+<p>There are many other options available, but those three are probably
+the most common defaults you might want to override.</p>
+<h2 id="checking-your-coding-style">Checking Your Coding Style</h2>
+<p>Lints code in existing project. This command can be used to ensure
+that code style matches industry-standard practices, and can help keep
+your team’s code styling consistent.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> lint <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<p>One of the coolest options to <code>ng lint</code> is the
+<code>--fix=true</code> option. As its name implies, this option
+attempts to fix any linting errors it finds. Some of the more common
+fixes it can make are spacing issues, missing semicolons, consistent
+quoting types (single or double). I recommend you only run this option
+on a pristine git repository, making it easy to undo if it breaks
+something.</p>
+<h2 id="running-unit-tests">Running Unit Tests</h2>
+<p>Run unit tests in existing project.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> test <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<p>The ng CLI sets up your tests by default unless you override that
+behavior. You don’t have to spend your valuable time configuring your
+tests. If you use the ng CLI, they will be configured automatically.</p>
+<h2 id="building-your-projects">Building Your Projects</h2>
+<p>Builds your app and places it into the output path
+(<code>dist/</code> by default).</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ng</span> build <span class="op">&lt;</span>options...<span class="op">&gt;</span></span></code></pre></div>
+<h2 id="additional-commands">Additional Commands</h2>
+<p>Here are some other commands that are used less often, included here
+for completeness.</p>
+<ul>
+<li><code>ng doc &lt;keyword&gt;</code>: Opens the official Angular
+documentation for a given keyword.</li>
+<li><code>ng e2e &lt;options...&gt;</code>: Run end-to-end (integration)
+tests in existing project.</li>
+<li><code>ng version &lt;options...&gt;</code>: Outputs Angular CLI
+version.</li>
+<li><code>ng xi18n &lt;options...&gt;</code>: Extracts i18n messages
+from source code.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>In conclusion, the Angular CLI is a powerful and versatile tool that
+empowers developers to automate and streamline a wide range of tasks,
+from project creation to testing and deployment. It not only enhances
+productivity but also ensures consistency in code quality and style. For
+more comprehensive guidance and insights on utilizing the full potential
+of the Angular CLI, you can refer to the official documentation at <a
+href="https://cli.angular.io/">Angular CLI</a>. Raw URL:
+https://cli.angular.io/</p>
+</body>
+</html>

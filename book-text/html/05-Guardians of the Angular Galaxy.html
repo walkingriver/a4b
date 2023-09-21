@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>05-Guardians of the Angular Galaxy</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="guardians-of-the-angular-galaxy">Guardians of the [Angular]
+Galaxy</h1>
+<p>As we journey deeper into Angular, we uncover more powerful tools
+that not only enhance the functionality of our applications but also
+secure their operation. One such tool is the Route Guard. Route Guards
+act as gatekeepers, deciding whether navigation to a requested route is
+permissible or should be blocked.</p>
+<p>In this chapter, we’ll take a look at them and review a simple
+implementation. So, let’s dive in and meet these Guardians of the
+Routes!</p>
+<h2 id="understanding-angular-route-guards">Understanding Angular Route
+Guards</h2>
+<p>Angular Route Guards are functions which tell the Angular router to
+allow or deny navigation to a requested route. They act as security
+checkpoints, controlling whether a user can navigate to or away from a
+certain route. Route Guards are a powerful tool to add an extra layer of
+protection and control to your Angular applications.</p>
+<p>Angular offers several built-in guard types like
+<code>CanActivate</code>, <code>CanDeactivate</code>,
+<code>CanLoad</code>, and <code>Resolve</code>, each serving a specific
+purpose in the navigation life cycle. These guards can be used to
+implement complex scenarios such as user authentication, role-based
+access control, and form-change confirmation.</p>
+<h2 id="the-value-proposition-of-guards">The Value Proposition of
+Guards</h2>
+<p>The Angular Route Guard comes with a suite of benefits:</p>
+<ol type="1">
+<li><strong>User Access Control</strong>: Guards can be used to control
+which users have access to certain routes based on their roles or
+permissions.</li>
+<li><strong>Data Protection</strong>: They can protect data on a page
+from being lost when the user navigates away.</li>
+<li><strong>Load Optimization</strong>: They can prevent lazy-loaded
+modules from loading until certain conditions are met.</li>
+<li><strong>Data Pre-Fetching</strong>: Guards can fetch the data
+required for a specific route in advance using <code>Resolve</code>
+guards. We’ll look more at the resolver later.</li>
+</ol>
+<p>In this chapter, I’ll focus on <code>CanActivate</code>. I’ll talk
+about <code>Resolver</code> guards in the next chapter.</p>
+<h2 id="practical-application-of-guards">Practical Application of
+Guards</h2>
+<p>To see how Angular Route Guards work in a real-world application,
+let’s create a Guard that checks if a date parameter in a route is valid
+and not in the past.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> dateGuard<span class="op">:</span> CanActivateFn <span class="op">=</span> (route<span class="op">,</span> state) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> dateParam <span class="op">=</span> route<span class="op">.</span><span class="at">params</span>[<span class="st">&#39;date&#39;</span>]<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> date <span class="op">=</span> <span class="kw">new</span> <span class="bu">Date</span>(dateParam)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span><span class="pp">isNaN</span>(date<span class="op">.</span><span class="fu">getTime</span>()) <span class="op">&amp;&amp;</span> date <span class="op">&gt;</span> <span class="kw">new</span> <span class="bu">Date</span>()) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">alert</span>(<span class="st">&#39;Invalid or past date!&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>Notice that dateGuard is a function instead of a class. This is an
+example of a functional route guard.</p>
+<p>It takes two parameters: <code>route</code>, an instance of
+<code>ActivatedRouteSnapshot</code>, and <code>state</code>, an instance
+of <code>RouterStateSnapshot</code>. The function can return an
+<code>Observable</code>, <code>Promise</code>, a <code>boolean</code>,
+or a <code>UrlTree</code>.</p>
+<ul>
+<li>If all guards return <code>true</code>, the navigation
+continues.</li>
+<li>If any guard returns <code>false</code>, the navigation is
+canceled.</li>
+<li>If any guard returns a <code>UrlTree</code>, the current navigation
+is canceled, and a new navigation begins to the <code>UrlTree</code>
+returned from the guard.</li>
+</ul>
+<p>The <code>dateGuard</code> above is a simple implementation of the
+<code>CanActivateFn</code> function definition.</p>
+<p>This function verifies that the ‘date’ route parameter is valid and
+not in the past. If the date isn’t valid or is in the past, an alert is
+shown to the user, and navigation to the route is not allowed.</p>
+<p>The guard is then applied to a route in the route configuration:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { dateGuard } <span class="im">from</span> <span class="st">&#39;./date.guard&#39;</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> routes<span class="op">:</span> Routes <span class="op">=</span> [</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    path<span class="op">:</span> <span class="st">&#39;event/:date&#39;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    component<span class="op">:</span> EventComponent<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    canActivate<span class="op">:</span> [dateGuard]<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code></pre></div>
+<p>In this case, the <code>EventComponent</code> is activated only if
+the ‘date’ parameter in the route is a valid date and is not in the
+past.</p>
+<h2 id="beyond-parameter-validation">Beyond Parameter Validation</h2>
+<p>While the example above focuses on parameter validation, Angular
+Route Guards can also be used for complex security applications like
+user authentication and role-based access control. In these scenarios,
+the guard checks a user’s authentication status or roles to determine
+whether they should be allowed to navigate to a certain route.</p>
+<p>Although the guard’s internal logic and complexity may vary, the
+fundamental mechanism remains the same: analyzing the situation (e.g.,
+checking parameters or a user’s authenticated state) and making a
+decision about whether or not to allow navigation.</p>
+<p>Here’s a basic implementation of an authentication guard:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> authGuard<span class="op">:</span> CanActivateFn <span class="op">=</span> (route<span class="op">,</span> state) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  authService <span class="op">=</span> <span class="fu">inject</span>(AuthService)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">authService</span><span class="op">.</span><span class="fu">isAuthenticated</span>()) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Not authenticated, redirecting...&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">authService</span><span class="op">.</span><span class="fu">redirectToLogin</span>()<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In this example, the guard checks if the user is authenticated by
+calling <code>isAuthenticated()</code> on an <code>AuthService</code>.
+If the user is authenticated, it returns true and navigation proceeds.
+If not, it redirects the user to a login page and returns false,
+stopping the navigation.</p>
+<p>Alternatively, we could have the guard return a <code>UrlTree</code>
+to a login page instead, which would cause the Angular Router to
+redirect the user to that page.</p>
+<h2 id="the-inject-function">The <code>inject</code> Function</h2>
+<p>You may have noticed another new function in that code above. It is
+worth a brief discussion.</p>
+<p>Traditional constructor injection in Angular is a method where
+dependencies are supplied directly into a class’s constructor. The
+dependencies required by a class are declared as constructor parameters,
+and Angular’s DI system takes care of instantiating and providing those
+dependencies when the class is created. Here’s a brief example of what
+this might look like:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Injectable</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> Car {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span>(<span class="kw">private</span> engine<span class="op">:</span> Engine) {}</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In this traditional approach, the DI system identifies the
+<code>Engine</code> dependency based on the type annotation in the
+constructor and injects an appropriate instance.</p>
+<p>The <code>inject</code> function, on the other hand, provides an
+alternative way to acquire dependencies within an injection context. It
+can be used not only in the constructor but also in field initializers
+and specific factory functions, called <em>injection contexts</em>.
+Here’s how you could utilize the <code>inject</code> function:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>@<span class="fu">Injectable</span>({ providedIn<span class="op">:</span> <span class="st">&#39;root&#39;</span> })</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">class</span> Car {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  radio<span class="op">:</span> Radio <span class="op">=</span> <span class="fu">inject</span>(Radio)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  spareTire <span class="op">=</span> <span class="fu">inject</span>(Tire)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Empty constructor no longer required</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The key differences between traditional constructor injection and
+using the <code>inject</code> function include:</p>
+<ol type="1">
+<li><strong>Usage Beyond Constructors</strong>: Unlike constructor
+injection, where dependencies are only injected through the constructor
+parameters, <code>inject</code> allows for the manual injection of
+dependencies even in property initializations.</li>
+<li><strong>Explicit Injection</strong>: The <code>inject</code>
+function offers a more explicit way to request dependencies, giving you
+the option to inject a dependency where needed, rather than solely at
+the construction phase.</li>
+</ol>
+<h3 id="injection-context">Injection Context</h3>
+<p>The injection context refers to the specific situation or place where
+the <code>inject</code> function can be utilized. It is essential to
+adhere to the injection context because calling the <code>inject</code>
+function outside of it will result in an error. This context ensures
+that dependencies are provided consistently and only when appropriate,
+maintaining the integrity of the application’s architecture.</p>
+<p>For example, calling <code>inject</code> within the lifecycle hooks
+like <code>ngOnInit</code> is disallowed, as it is considered outside
+the valid injection context. This context-awareness guarantees that
+dependencies are only injected at suitable points, thus avoiding
+potential conflicts or unexpected behaviors in the application.</p>
+<p>In summary, the <code>inject</code> function offers a flexible,
+powerful alternative to constructor injection, with clear benefits in
+terms of control, code conciseness, and error management. Understanding
+and adhering to the injection context is critical to utilizing this
+function effectively within the application’s design.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Angular Route Guards are an indispensable tool for Angular
+developers, providing powerful control over access and navigation within
+an application. By utilizing their capabilities, developers can ensure
+the right data is shown to the right user at the right time, enhancing
+both data security and user experience. In the next chapter, we will
+delve into more complex guard use cases and also explore how to handle
+redirection when a guard prevents navigation.</p>
+</body>
+</html>

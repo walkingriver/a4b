@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>10-Understand Your Service API</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="understand-your-service-api">Understand Your Service API</h1>
+<p>Whether you are creating or consuming an API, you must understand all
+its implications. If you are the consumer, it is up to you to understand
+what calling its various functions will do. If you are creating an API,
+you also have a responsibility to your consumers. I will not go into all
+the rules here but will touch on two very severe problems that I have
+personally experienced in my professional life.</p>
+<h2 id="consumer-know-your-api-behavior">Consumer: Know Your API
+Behavior</h2>
+<p>This story is a few years old. It is an amusing tale, though it could
+have been tragic had the code gotten deployed to our production
+servers.</p>
+<p>A few years ago, I was reviewing some .NET code, using LINQ to
+Entities. I came across a line like the following…</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> reservations <span class="op">=</span> dataManager<span class="op">.</span><span class="fu">Reservations</span><span class="op">()</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">ToList</span><span class="op">()</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">Where</span><span class="op">(</span>res <span class="op">=&gt;</span> res<span class="op">.</span><span class="fu">GuestLastName</span> <span class="op">==</span> lastName<span class="op">);</span></span></code></pre></div>
+<p>The author’s intention, in English was the following…</p>
+<p><em>“Get me a list of all reservations where the guest’s last name
+matches the last name provided.”</em></p>
+<p>Anyone who has used LINQ to Entities can probably spot the problem
+immediately. By default, LINQ to Entities executes as much of the query
+as it can on the database. However, the <code>ToList()</code> call,
+which is not even necessary, overrides that behavior. It causes the
+query to be executed immediately and the results serialized into a list.
+That list is then returned to the method chain, at which point the
+<code>Where</code> clause is executed.</p>
+<p>In English, the actual consequence of this method chain is…</p>
+<p><em>“Get me a list of all reservations in the database. Once you’ve
+returned all of those to me, then filter the list to only those records
+with a matching last name provided.”</em></p>
+<p>As I am sure you can imagine, asking a hotel reservation system to
+return all its reservations, without any constraints, would return a lot
+of records. You might think this would be discovered quickly. The
+developer did not see any issues locally, because the local development
+database contained only a few dozen reservations. That is a problem
+worth its own discussion.</p>
+<p>One proper way to write the above query would be…</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> reservations <span class="op">=</span> dataManager<span class="op">.</span><span class="fu">Reservations</span><span class="op">()</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">Where</span><span class="op">(</span>res <span class="op">=&gt;</span> res<span class="op">.</span><span class="fu">GuestLastName</span> <span class="op">==</span> lastName<span class="op">);</span></span></code></pre></div>
+<p>Simply removing the <code>ToList()</code> method causes the entire
+query to be executed on the database. Only the matching records are
+returned to the caller. Granted, there are still issues to be addressed,
+and those issues require an understanding of not only the API, but the
+database schema.</p>
+<p>For example, it probably would not make sense to return all matching
+records. You may want to limit the number returned to a sizable chunk,
+and page the rest. It is also possible that the
+<code>GuestLastName</code> column is not indexed properly, which would
+result in a table scan of potentially millions of records.</p>
+<p>The important thing is that it is up to you, as the API consumer, to
+know what is really going on. Do not simply and blindly make function
+calls and hope for the best. You probably do not want to be the one
+responsible for bringing down your company’s production reservations
+system.</p>
+<h2 id="creators-do-not-break-your-consumers">Creators: Do Not Break
+Your Consumers</h2>
+<p>This one happened to me recently. A web service I had been using for
+months now suddenly started returning errors instead of valid search
+results. I discovered this because I always search for myself when
+searching in our test environment. I type my last name, and my first
+initial. This has worked as long as I have been using it.</p>
+<p>There are exactly two matching results in our database of hundreds of
+thousands of people, so it is a convenient search for me to use. This
+week, however, it started throwing “validation exceptions.” Apparently,
+someone maintaining the web service decided that if you are searching by
+first and last name, you must include at least two letters for each. I
+guess that might make sense, to limit the amount of data returned (see
+above). There are better ways to handle this, though.</p>
+<p>They also changed another search, requiring the zip code to be
+provided. Again, this was done without warning. Quite frankly, if they
+need to limit the number of records returned, fine. I have one request:
+tell your API consumers about it ahead of time! Better still, create a
+new search method updated with the new validation rules or required
+parameters, deprecate the existing method, and give your consumers ample
+time to migrate. This will prevent last-minute system outages as your
+API consumer applications suddenly stop working and cannot figure out
+why code that worked yesterday suddenly stopped working today.</p>
+<h2 id="summary">Summary</h2>
+<p>If you are consuming an API:</p>
+<ul>
+<li>Know how to use the API.</li>
+<li>Understand what the possible replies might be, and ensure that you
+do not overwhelm any service that might be behind it.</li>
+</ul>
+<p>If you are creating an API:</p>
+<ul>
+<li>Know how your API is used.</li>
+<li>Build your API to protect yourself; do not return responses that are
+“too big”.</li>
+<li>Do not break the interface to your API.</li>
+</ul>
+<p>As I said above, you do not want to be the one bringing down the
+production systems on a Sunday morning.</p>
+</body>
+</html>
