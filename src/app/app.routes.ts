@@ -1,19 +1,26 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './route-guard/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'chapter-04',
+    path: 'angular-component',
     loadComponent: () =>
-      import('./chapter-04/landing.component').then((m) => m.LandingComponent),
+      import('./angular-component/landing.component').then((m) => m.LandingComponent),
   },
   {
-    path: 'chapter-05',
+    path: 'route-guard',
     loadComponent: () =>
-      import('./chapter-05/landing.component').then((m) => m.LandingComponent),
+      import('./route-guard/route-guard-landing.component').then((m) => m.RouteGuardLandingComponent),
   },
-  // {
-  //   path: 'error',
-  //   loadComponent: () =>
-  //     import('./error/error.component').then((m) => m.ErrorComponent),
-  // },
+  {
+    path: 'guarded-route',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./route-guard/guarded.component').then((m) => m.GuardedComponent)
+  },
+  {
+    path: 'resolve-or-die',
+    loadComponent: () =>
+      import('./resolve-or-die/landing.component').then((m) => m.LandingComponent),
+  },
 ];
