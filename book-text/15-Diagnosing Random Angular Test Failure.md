@@ -105,9 +105,9 @@ In this code, the promise returned by `service.getData()` is being returned by
 That, however, led me to another realization. The test itself was bad. It looked like this:
 
 ```typescript
-it("should set an error if it throws", async () => {
+it('should set an error if it throws', async () => {
   // service here is a test double, a mock of the real service
-  service.getData.rejects({ message: "test-error" });
+  service.getData.rejects({ message: 'test-error' });
   fixture.detectChanges();
   await component.getSomeData();
   expect(component.error).toBeTruthy();
@@ -117,9 +117,9 @@ it("should set an error if it throws", async () => {
 The testing code was using `async/await`, but had no `try/catch`! I decided that I would rewrite the test without `async/await`, instead using `catch`. The modified test looked something like this:
 
 ```typescript
-it("should set an error if it throws", () => {
+it('should set an error if it throws', () => {
   // service here is a test double, a mock of the real service
-  service.getData.rejects({ message: "test-error" });
+  service.getData.rejects({ message: 'test-error' });
   fixture.detectChanges();
   component.getSomeData().catch((err) => {
     expect(component.error).toBeTruthy();
@@ -164,7 +164,7 @@ providers: [{ provide: DataService, useClass: DataService }];
 I had left in the variable declaration so that I could redefine its behavior in the error path. But now I had a compiler error. This line in my failing test was no longer valid.
 
 ```javascript
-service.getData.rejects({ message: "test-error" });
+service.getData.rejects({ message: 'test-error' });
 ```
 
 That is because service was now strongly-typed to be a DataService, and `getData` returned a promise. It had no function named `rejects`. The solution was to replace the `getData` function completely, but just for this test.
@@ -172,13 +172,15 @@ That is because service was now strongly-typed to be a DataService, and `getData
 Recall that I said this test was inside its own `describe` block, so I added a `beforeEach` to it, where I could replace the behavior of the `getData` function to reject instead of resolve the promise. Now my test looked something like this:
 
 ```javascript
-describe("getSomeData (error path)", () => {
+describe('getSomeData (error path)', () => {
   // Redefine service.getData here, outside the test itself.
   beforeEach(() => {
-    service.getData = sinon.stub().rejects({ message: "test-error" });
+    service.getData = sinon
+      .stub()
+      .rejects({ message: 'test-error' });
   });
 
-  it("should set an error if it throws", () => {
+  it('should set an error if it throws', () => {
     // service here is a test double, a mock of the real service
     fixture.detectChanges();
     component.getSomeData().catch((err) => {

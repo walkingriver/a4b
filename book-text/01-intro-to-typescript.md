@@ -99,27 +99,27 @@ This construct proves beneficial in situations where you want to ensure that a v
 Consider this example where we have a type `Fruit` that could either be `'Apple'`, `'Banana'`, or `'Cherry'`. Trying to assign any other string value to a variable of type `Fruit` would result in a TypeScript error.
 
 ```typescript
-type Fruit = "Apple" | "Banana" | "Cherry";
+type Fruit = 'Apple' | 'Banana' | 'Cherry';
 
 let myFruit: Fruit;
 
-myFruit = "Apple"; // This is valid
-myFruit = "Banana"; // This is also valid
-myFruit = "Pear"; // Error! 'Pear' is not assignable to type 'Fruit'
+myFruit = 'Apple'; // This is valid
+myFruit = 'Banana'; // This is also valid
+myFruit = 'Pear'; // Error! 'Pear' is not assignable to type 'Fruit'
 ```
 
 Similarly, we can use string literal types to restrict the parameters that a function accepts:
 
 ```typescript
-type Direction = "Up" | "Down" | "Left" | "Right";
+type Direction = 'Up' | 'Down' | 'Left' | 'Right';
 
 function move(direction: Direction) {
   // function body
 }
 
-move("Up"); // This is valid
-move("Down"); // This is also valid
-move("North"); // Error! Argument of type '"North"' is not assignable to parameter of type 'Direction'
+move('Up'); // This is valid
+move('Down'); // This is also valid
+move('North'); // Error! Argument of type '"North"' is not assignable to parameter of type 'Direction'
 ```
 
 In this case, the `move` function only accepts `'Up'`, `'Down'`, `'Left'`, or `'Right'` as valid directions. Attempting to call `move('North')` would result in a TypeScript error, as 'North' is not a valid `Direction`. This aids in creating more robust, error-resistant code by ensuring only expected values are passed.
@@ -133,14 +133,14 @@ For instance, consider a scenario where we have a component that displays a stat
 Here is an example:
 
 ```typescript
-type Status = "Loading" | "Success" | "Error";
+type Status = 'Loading' | 'Success' | 'Error';
 
 @Component({
-  selector: "my-app",
+  selector: 'my-app',
   template: `<div>{{ status }}</div>`,
 })
 export class AppComponent {
-  status: Status = "Loading";
+  status: Status = 'Loading';
 }
 ```
 
@@ -169,10 +169,26 @@ For example, imagine we want to initialize an array of `Member` objects. Speci
 
 ```typescript
 const allMembers: Member[] = [
-  { email: "1234@company.com", firstName: "Mike", lastName: "Smith" },
-  { email: "2345@company.com", firstName: "Bob", lastName: "Johnson" },
-  { email: "3456@company.com", firstName: "Debbie", lastName: "Jones" },
-  { email: "4567@company.com", firstName: "Carol", lastName: "Brown" },
+  {
+    email: '1234@company.com',
+    firstName: 'Mike',
+    lastName: 'Smith',
+  },
+  {
+    email: '2345@company.com',
+    firstName: 'Bob',
+    lastName: 'Johnson',
+  },
+  {
+    email: '3456@company.com',
+    firstName: 'Debbie',
+    lastName: 'Jones',
+  },
+  {
+    email: '4567@company.com',
+    firstName: 'Carol',
+    lastName: 'Brown',
+  },
 ];
 ```
 
@@ -189,7 +205,12 @@ class MemberImpl implements Member {
   lastName: string;
   phone?: string;
 
-  constructor(email: string, firstName: string, lastName: string, phone: string = "") {
+  constructor(
+    email: string,
+    firstName: string,
+    lastName: string,
+    phone: string = '',
+  ) {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -219,7 +240,7 @@ Below you can see the creation of two variables of type `Stack`, each passing a 
 ```typescript
 let numbers: Stack<number>;
 let names: Stack<string>;
-names.push("Mike"); // OK
+names.push('Mike'); // OK
 names.push(5); // Error
 ```
 
@@ -229,11 +250,11 @@ TypeScript supports arrow functions, which can be used in place of the anonymous
 
 ```typescript
 window.setTimeout(function () {
-  alert("It has been five seconds!");
+  alert('It has been five seconds!');
 }, 5000);
 
 window.setTimeout(() => {
-  alert("It has been five seconds!");
+  alert('It has been five seconds!');
 }, 5000);
 
 window.ondblclick = (ev: MouseEvent) => {
@@ -255,13 +276,17 @@ A Promise is a guarantee that a function will complete at some unknown time in t
 
 ```typescript
 function getMyIpAddress(): Promise<string> {
-  return fetch("https://api.ipify.org/?format=json")
+  return fetch('https://api.ipify.org/?format=json')
     .then((response) => response.json())
     .catch((error) => console.log(error));
 }
 
 getMyIpAddress()
-  .then((ip) => console.log(`Your IP address is: ${JSON.stringify(ip)}`))
+  .then((ip) =>
+    console.log(
+      `Your IP address is: ${JSON.stringify(ip)}`,
+    ),
+  )
   .catch((error) => console.log(error));
 ```
 
@@ -286,7 +311,9 @@ In this example, I have rewritten `getMyIpAddress()` and its client with `asy
 
 ```typescript
 async function getMyIpAddress(): Promise<string> {
-  const response = await fetch("https://api.ipify.org/?format=json");
+  const response = await fetch(
+    'https://api.ipify.org/?format=json',
+  );
   const data = await response.json();
   return data.ip;
 }
@@ -324,9 +351,9 @@ Using `async` and `await` is wonderful in that your code looks more traditio
 When are values equal? The answer may surprise you. While not specific to TypeScript, this topic has bitten many new JavaScript and TypeScript developers. Consider the following example.
 
 ```typescript
-console.log("1" == 1); // true
-console.log("" == 0); // true
-console.log("1" == [1]); // true
+console.log('1' == 1); // true
+console.log('' == 0); // true
+console.log('1' == [1]); // true
 ```
 
 If you expected those all to be false, then this explanation is for you. If you are following along in the TypeScript playground, you will notice that it warns you not to do those things.
@@ -334,9 +361,9 @@ If you expected those all to be false, then this explanation is for you. If you 
 The problem is that JavaScript will coerce from one type to another to make the comparison, even if that is not what you want or expect. The solution is to use `===` instead of `==`, which says not to use coercion. Thus, each of the following lines return the expected value of false.
 
 ```typescript
-console.log("1" === 1); // false
-console.log("" === 0); // false
-console.log("1" === [1]); // false
+console.log('1' === 1); // false
+console.log('' === 0); // false
+console.log('1' === [1]); // false
 ```
 
 It is recommended that you use `===` for comparisons, and most teams will use a tool to ensure it.
@@ -350,10 +377,10 @@ The important difference to note is that objects declared with `var` are "func
 ```typescript
 for (var i = 0; i < 100; i++) {
   if (i % 3 === 0) {
-    console.log("FIZZ");
+    console.log('FIZZ');
   }
   if (i % 5 === 0) {
-    console.log("BUZZ");
+    console.log('BUZZ');
   }
   if (i % 5 && i % 3) {
     console.log(i);
@@ -370,15 +397,19 @@ Had we used `let` instead of `var`, the generated JavaScript will be identica
 The other new keyword, `const`, works exactly like `let`, in that the object defined will be block-scoped. However, with `const` you must provide a value. Further, once declared, its value can never be changed.
 
 ```typescript
-const myName = "Mike";
-myName = "Bob"; // Error - cannot redefine
+const myName = 'Mike';
+myName = 'Bob'; // Error - cannot redefine
 ```
 
 This rule applies only to the named object, and not any of its members (in the case of a complex object or array). For example, you can manipulate the members of an array. You can also add, change, or remove properties to an object. You simply cannot reassign its value.
 
 ```typescript
-const mike: Member = { email: "1234@company.com", firstName: "Mike", lastName: "Smith" };
-mike.email = "mike";
+const mike: Member = {
+  email: '1234@company.com',
+  firstName: 'Mike',
+  lastName: 'Smith',
+};
+mike.email = 'mike';
 
 // These are fine
 const allMembers: Member[] = [];
@@ -386,7 +417,11 @@ allMembers.push(mike);
 
 // Errors - may not redefine constants
 allMembers = [];
-mike = { email: "2345@company.com", firstName: "Bob", lastName: "Johnson" };
+mike = {
+  email: '2345@company.com',
+  firstName: 'Bob',
+  lastName: 'Johnson',
+};
 ```
 
 ## Summary

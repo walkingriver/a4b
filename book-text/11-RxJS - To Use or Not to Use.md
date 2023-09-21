@@ -41,10 +41,13 @@ The next step was to create an Observable I could subscribe to. I created a comp
 That led to this small bit of code:
 
 ```typescript
-this.storeChanged$ = fromEvent(this.storeListDropdown.nativeElement, "selected-changed").pipe(
+this.storeChanged$ = fromEvent(
+  this.storeListDropdown.nativeElement,
+  'selected-changed',
+).pipe(
   tap((x) => {
     console.log(x);
-  })
+  }),
 );
 ```
 
@@ -59,11 +62,14 @@ Next, I needed to take the newly-selected value and use it to make a service cal
 It is possible for the user to select nothing, at which point I do not want to make a service call. So I added a filter to the observable's pipe to ensure I am only getting selections.
 
 ```typescript
-this.storeChanged$ = fromEvent<CustomEvent>(this.storeListDropdown.nativeElement, "selected-changed").pipe(
+this.storeChanged$ = fromEvent<CustomEvent>(
+  this.storeListDropdown.nativeElement,
+  'selected-changed',
+).pipe(
   filter((x) => x.detail?.value?.length),
   tap((x) => {
     console.log(x.detail.value[0].value);
-  })
+  }),
 );
 ```
 
@@ -74,12 +80,17 @@ With that I was able to confirm that it only fired when the user selects somethi
 Next up was to make the web service call. I modified the `tap` function to set a component variable that holds the selection, then added a `switchMap` to call an Angular service that hides the actual HTTP call. Now it looks like this:
 
 ```typescript
-this.storeChanged$ = fromEvent<CustomEvent>(this.storeListDropdown.nativeElement, "selected-changed").pipe(
+this.storeChanged$ = fromEvent<CustomEvent>(
+  this.storeListDropdown.nativeElement,
+  'selected-changed',
+).pipe(
   filter((x) => x.detail?.value?.length),
   tap((x) => {
     this.selectedStore = x.detail.value[0].value;
   }),
-  switchMap((x) => this.getProducts(this.selectedStore))
+  switchMap((x) =>
+    this.getProducts(this.selectedStore),
+  ),
 );
 ```
 
@@ -90,15 +101,19 @@ I could drop the `tap` and do both the variable assignment and the service call 
 A single "store" in this project could return anywhere from 0 to potentially hundreds or thousands of products. Each record is small, so for now, we are keeping the filtering of products entirely client-side. To support that, the UI has a search box. Entering anything in the search box should cause the records to be filtered to those records matching the value entered. This called for another observable, which I will show in its entirety.
 
 ```typescript
-this.searchFilterChanged$ = fromEvent<InputEvent>(this.searchBox.nativeElement, "input").pipe(
+this.searchFilterChanged$ = fromEvent<InputEvent>(
+  this.searchBox.nativeElement,
+  'input',
+).pipe(
   // tslint:disable-next-line: no-magic-numbers
   debounceTime(300),
   map((_) => {
-    this.searchFilter = this.searchBox.nativeElement.value;
+    this.searchFilter =
+      this.searchBox.nativeElement.value;
     return this.searchFilter;
   }),
   distinctUntilChanged(),
-  startWith("")
+  startWith(''),
 );
 ```
 
@@ -117,9 +132,12 @@ As you can see, I start by creating an observable from the HTML `input` event. T
 My final component is another custom one that handles paging. As I said, the results of the web service can potentially contain thousands of records, so I want to provide a user a simple way of paging through those results. Like my other custom component, it also fires a `CustomEvent` called `nav-selected`. I again used `fromEvent` and set it up similarly to the first one.
 
 ```typescript
-this.pagerChanged$ = fromEvent<CustomEvent>(this.pager.nativeElement, "nav-selected").pipe(
+this.pagerChanged$ = fromEvent<CustomEvent>(
+  this.pager.nativeElement,
+  'nav-selected',
+).pipe(
   map((x) => x.detail.currentPage),
-  startWith(1)
+  startWith(1),
 );
 ```
 
@@ -136,7 +154,15 @@ The caveat for this operator is that it will not emit an event until each observ
 How does this all work in practice? Every time the user selects a new store, changes the search filter, or selects a new page on the pager, my subscriber gets the most recent value of each of those three observables. Here is the code.
 
 ```typescript
-this.filteredProducts$ = combineLatest([this.storeChanged$, this.searchFilterChanged$, this.pagerChanged$]).pipe(map(([products, search, page]) => this.filterProducts(products, search, page)));
+this.filteredProducts$ = combineLatest([
+  this.storeChanged$,
+  this.searchFilterChanged$,
+  this.pagerChanged$,
+]).pipe(
+  map(([products, search, page]) =>
+    this.filterProducts(products, search, page),
+  ),
+);
 ```
 
 Inside of the `map` operator, you can see that each value from the array of observables is passed into its arrow function. I pass those values into a pure function on my component called `filterProducts`. This function handles the filter and paging on the `products` array to return a new array of products.

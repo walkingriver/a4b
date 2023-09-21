@@ -217,13 +217,18 @@ I added the `EnvironmentInjector` object into my app component's constructor. Th
 **Before: app.component.html**
 
 ```html
-<ion-router-outlet id="main-content"></ion-router-outlet>
+<ion-router-outlet
+  id="main-content"
+></ion-router-outlet>
 ```
 
 **After: app.component.html**
 
 ```html
-<ion-router-outlet id="main-content" [environmentInjector]="environmentInjector"></ion-router-outlet>
+<ion-router-outlet
+  id="main-content"
+  [environmentInjector]="environmentInjector"
+></ion-router-outlet>
 ```
 
 _Note: Ionic 7 solves this problem entirely by supporting standalone components natively._
@@ -293,7 +298,17 @@ platformBrowserDynamic()
 
 ```typescript
 bootstrapApplication(AppComponent, {
-  providers: [importProvidersFrom(BrowserModule, IonicModule.forRoot(), AppRoutingModule), { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      IonicModule.forRoot(),
+      AppRoutingModule,
+    ),
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy,
+    },
+  ],
 }).catch((err) => console.log(err));
 ```
 

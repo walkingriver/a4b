@@ -57,15 +57,15 @@ This is the simplest part because there really is no logic to speak of. I am sim
 Inside the file loading.component.ts, the generated code looks like this:
 
 ```typescript
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: "app-loading",
+  selector: 'app-loading',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: "./loading.component.html",
-  styleUrls: ["./loading.component.css"],
+  templateUrl: './loading.component.html',
+  styleUrls: ['./loading.component.css'],
 })
 export class LoadingComponent {}
 ```
@@ -81,18 +81,18 @@ You can also see that `standalone` is set to true, meaning we will not need an `
 Next is the class body itself, which should be empty. We’ll fix that now by adding two variables.
 
 ```typescript
-import { Component, Input } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: "app-loading",
+  selector: 'app-loading',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: "./loading.component.html",
-  styleUrls: ["./loading.component.css"],
+  templateUrl: './loading.component.html',
+  styleUrls: ['./loading.component.css'],
 })
 export class LoadingComponent {
-  @Input() label = "";
+  @Input() label = '';
   @Input() shown = false;
 }
 ```
@@ -103,7 +103,10 @@ The `@Input` decorators tell Angular to expose those two variables as attributes
 - `shown` allows the host to show or hide the component as necessary. Something like this:
 
 ```html
-<app-loading label="Loading data now..." [shown]="isLoading"></app-loading>
+<app-loading
+  label="Loading data now..."
+  [shown]="isLoading"
+></app-loading>
 ```
 
 With this example markup, I have hard-coded the loading message, but have bound the shown attribute to a variable on the host component. Whenever `isLoading` is true in the host component, the loading component will be visible; otherwise it will be hidden. That is all the host needs to be concerned with. How the visibility is implemented inside the loading component is irrelevant to the host.
@@ -244,7 +247,10 @@ I hinted at its use above, but there are three things you would need to use it i
 3. Supply some HTML markup to call it, which looks like this.
 
 ```html
-<app-loading [label]="loadingText" [shown]="isLoading"></app-loading>
+<app-loading
+  [label]="loadingText"
+  [shown]="isLoading"
+></app-loading>
 ```
 
 In this sample code, I am using Angular's attribute binding syntax to bind the label and shown attributes to the host component's loadingText and isLoading variables, respectively. Changes to these variables on the host component will cause Angular to re-render the loading component as necessary.
@@ -256,7 +262,11 @@ If you are following along, you should be able to drop the component right onto 
 
 <button (click)="load()">Toggle Loading</button>
 
-<app-loading label="Loading data now..." [shown]="isLoading"> </app-loading>
+<app-loading
+  label="Loading data now..."
+  [shown]="isLoading"
+>
+</app-loading>
 ```
 
 In addition to the `<h1>` element displaying the text "My Great App!", you can see I’ve added a `<button>` element with the label "Toggle Loading", and an `<app-loading>` component that shows a loading message when the isLoading variable is true.
@@ -282,7 +292,7 @@ Start the Angular server by typing `ng serve` or `npm start` at the command line
 
 When you click the button, you'll see the component in action, as show in Figure 4.3.
 
-![Figure 4.3, Visibile Loading Indicator](image-7.png)
+![Figure 4.3, Visible Loading Indicator](image-7.png)
 
 ## Summary
 

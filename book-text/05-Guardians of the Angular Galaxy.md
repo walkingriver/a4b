@@ -54,11 +54,11 @@ This function verifies that the 'date' route parameter is valid and not in the p
 The guard is then applied to a route in the route configuration:
 
 ```typescript
-import { dateGuard } from "./date.guard";
+import { dateGuard } from './date.guard';
 
 const routes: Routes = [
   {
-    path: "event/:date",
+    path: 'event/:date',
     component: EventComponent,
     canActivate: [dateGuard],
   },
@@ -111,7 +111,7 @@ In this traditional approach, the DI system identifies the `Engine` dependency b
 The `inject` function, on the other hand, provides an alternative way to acquire dependencies within an injection context. It can be used not only in the constructor but also in field initializers and specific factory functions, called _injection contexts_. Here's how you could utilize the `inject` function:
 
 ```typescript
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class Car {
   radio: Radio = inject(Radio);
   spareTire = inject(Tire);

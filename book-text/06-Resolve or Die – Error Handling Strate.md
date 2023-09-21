@@ -33,7 +33,9 @@ Here is some sample code that illustrates one way to redirect to an error page i
 The Resolver shown below is an example of Angular’s functional resolver. The class-based resolvers have been deprecated and will be removed from Angular soon.
 
 ```typescript
-export const dataResolverResolver: ResolveFn<boolean> = (route, state) => {
+export const dataResolverResolver: ResolveFn<
+  boolean
+> = (route, state) => {
   const dataService = inject(DataService);
   const router = inject(Router);
 
@@ -42,9 +44,9 @@ export const dataResolverResolver: ResolveFn<boolean> = (route, state) => {
       // Here we would do something with the data
     }),
     catchError((error) => {
-      router.navigateByUrl("/error");
+      router.navigateByUrl('/error');
       throw error;
-    })
+    }),
   );
   return true;
 };
@@ -65,10 +67,12 @@ Here is some sample code that implements this pattern, using the loading indicat
 The `getData()` function is asynchronous so that it can use promises. I would normally use RxJS throughout my code, but I didn’t want it to get in the way of what we’re discussing here.
 
 ```typescript
-export class LoadingExampleComponent implements OnInit {
-  errorText = "";
+export class LoadingExampleComponent
+  implements OnInit
+{
+  errorText = '';
   isLoading = false;
-  data = "";
+  data = '';
 
   // Alternative service injection
   // dataService = inject(DataService);
@@ -80,11 +84,13 @@ export class LoadingExampleComponent implements OnInit {
   }
 
   async getData() {
-    this.errorText = "";
+    this.errorText = '';
     this.isLoading = true;
 
     try {
-      this.data = await firstValueFrom(this.dataService.getData());
+      this.data = await firstValueFrom(
+        this.dataService.getData(),
+      );
     } catch (error: any) {
       this.errorText = error.message;
     } finally {
@@ -98,8 +104,16 @@ And this is some markup that would go with it. The error message `<p>` tag, incl
 
 ```html
 <p>Data from service: {{ data }}</p>
-<p *ngIf="errorText">Error: {{ errorText }}. You can <a (click)="getData()">retry</a>, or <a href="/home">return home</a>.</p>
-<app-loading label="Loading data now..." [shown]="isLoading"> </app-loading>
+<p *ngIf="errorText">
+  Error: {{ errorText }}. You can
+  <a (click)="getData()">retry</a>, or
+  <a href="/home">return home</a>.
+</p>
+<app-loading
+  label="Loading data now..."
+  [shown]="isLoading"
+>
+</app-loading>
 ```
 
 ## Skeleton Text
@@ -122,7 +136,9 @@ There is more markup than in the prior example, primarily due to the inclusion o
     <ngx-skeleton-loader></ngx-skeleton-loader>
   </h1>
   <p>
-    <ngx-skeleton-loader [count]="3"></ngx-skeleton-loader>
+    <ngx-skeleton-loader
+      [count]="3"
+    ></ngx-skeleton-loader>
   </p>
 </div>
 ```

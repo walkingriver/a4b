@@ -319,7 +319,7 @@ For example, consider an Angular component that uses a value from the ActivatedR
 
 ```typescript
 @Component({
-  selector: "my-component",
+  selector: 'my-component',
   template: `{{ name }}`,
 })
 export class MyComponent {
@@ -328,7 +328,7 @@ export class MyComponent {
   constructor(private route: ActivatedRoute) {}
 
   getName(): string {
-    return this.route.snapshot.paramMap.get("name");
+    return this.route.snapshot.paramMap.get('name');
   }
 }
 ```

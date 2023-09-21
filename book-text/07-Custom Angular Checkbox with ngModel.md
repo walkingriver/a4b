@@ -62,7 +62,7 @@ I will start by showing the final CSS in case you want to follow along, but I wi
 
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
-    content: "";
+    content: '';
     position: absolute;
     display: none;
   }
@@ -102,7 +102,12 @@ With the checkbox styled the way I wanted it, my next thought was that I should 
 Here is how I envisioned the custom checkbox component would be used.
 
 ```html
-<app-checkbox text="Remember Me" [disabled]="!isLoggedIn" [(ngModel)]="remember"> </app-checkbox>
+<app-checkbox
+  text="Remember Me"
+  [disabled]="!isLoggedIn"
+  [(ngModel)]="remember"
+>
+</app-checkbox>
 ```
 
 This means I needed a way to pass in a string to be used for the label, a boolean to set the disabled property, and 2-way binding for the value of the checkbox itself. The first two were pretty easy. The third required some custom Angular code.
@@ -128,9 +133,18 @@ The component has no business logic to speak of, so I skipped tests. I may regre
 Next, I needed to add the modest HTML to the newly-created component. Here is the HTML:
 
 ```html
-<label class="cb-container" [class.disabled]="disabled">
+<label
+  class="cb-container"
+  [class.disabled]="disabled"
+>
   {{ text }}
-  <input type="checkbox" [checked]="isChecked" (change)="onChanged($event)" (blur)="onBlur($event)" [disabled]="disabled" />
+  <input
+    type="checkbox"
+    [checked]="isChecked"
+    (change)="onChanged($event)"
+    (blur)="onBlur($event)"
+    [disabled]="disabled"
+  />
   <span class="checkmark"></span>
 </label>
 ```
@@ -278,7 +292,11 @@ At this point, the custom checkbox component is ready to be dropped onto any oth
 As shown above, here is a complete example of using this custom component inside of another component.
 
 ```html
-<app-my-checkbox [(ngModel)]="isChecked" [text]="text" [disabled]="isDisabled" />
+<app-my-checkbox
+  [(ngModel)]="isChecked"
+  [text]="text"
+  [disabled]="isDisabled"
+/>
 ```
 
 As you can see, it took a little bit of effort, but the result is that [(ngModel)] now simply "just works," which was the goal.
@@ -289,25 +307,36 @@ Finally, because the component is recognized by Angular as a form control, it ca
 As a convenience, here is the complete component:
 
 ```typescript
-import { Component, Input, forwardRef } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import {
+  Component,
+  Input,
+  forwardRef,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 @Component({
-  selector: "app-my-checkbox",
-  templateUrl: "./my-checkbox.component.html",
-  styleUrls: ["./my-checkbox.component.css"],
+  selector: 'app-my-checkbox',
+  templateUrl: './my-checkbox.component.html',
+  styleUrls: ['./my-checkbox.component.css'],
   standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MyCheckboxComponent),
+      useExisting: forwardRef(
+        () => MyCheckboxComponent,
+      ),
       multi: true,
     },
   ],
 })
-export class MyCheckboxComponent implements ControlValueAccessor {
+export class MyCheckboxComponent
+  implements ControlValueAccessor
+{
   // Bindable properties
-  @Input() text = "";
+  @Input() text = '';
   @Input() disabled = false;
 
   // Internal properties
@@ -333,7 +362,9 @@ export class MyCheckboxComponent implements ControlValueAccessor {
   }
 
   onChanged($event: Event) {
-    const isChecked = ($event.target as HTMLInputElement)?.checked;
+    const isChecked = (
+      $event.target as HTMLInputElement
+    )?.checked;
     this.isChecked = isChecked;
     this.onChange(isChecked);
   }
@@ -345,9 +376,18 @@ Filename: `my-checkbox.component.ts`
 ### And the template:
 
 ```html
-<label class="cb-container" [class.disabled]="disabled">
+<label
+  class="cb-container"
+  [class.disabled]="disabled"
+>
   {{ text }}
-  <input type="checkbox" [checked]="isChecked" (change)="onChanged($event)" (blur)="onBlur($event)" [disabled]="disabled" />
+  <input
+    type="checkbox"
+    [checked]="isChecked"
+    (change)="onChanged($event)"
+    (blur)="onBlur($event)"
+    [disabled]="disabled"
+  />
   <span class="checkmark"></span>
 </label>
 ```

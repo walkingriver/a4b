@@ -11,22 +11,24 @@ To work through the example in this chapter, open a browser to [Stackblitz](http
 Raw URL: https://stackblitz.com/fork/angular
 
 ```typescript
-import "zone.js/dist/zone";
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { bootstrapApplication } from "@angular/platform-browser";
+import 'zone.js/dist/zone';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
-  selector: "my-app",
+  selector: 'my-app',
   standalone: true,
   imports: [CommonModule],
   template: `
     <h1>Hello from {{ name }}!</h1>
-    <a target="_blank" href="https://angular.io/start"> Learn more about Angular </a>
+    <a target="_blank" href="https://angular.io/start">
+      Learn more about Angular
+    </a>
   `,
 })
 export class App {
-  name = "Angular";
+  name = 'Angular';
 }
 
 bootstrapApplication(App);
@@ -68,7 +70,9 @@ Take a look at the markup. It is a TypeScript templated string literal containin
 
 ```html
 <h1>Hello from {{name}}!</h1>
-<a target="_blank" href="https://angular.io/start"> Learn more about Angular </a>
+<a target="_blank" href="https://angular.io/start">
+  Learn more about Angular
+</a>
 ```
 
 Notice the first line contains a common HTML tag, `<h1>`.
@@ -79,7 +83,7 @@ Now, change the `name` variable inside the component code and give it a differen
 
 ```typescript
 export class App {
-  name = "Mike";
+  name = 'Mike';
 }
 ```
 
@@ -124,7 +128,11 @@ If you see that `@Input` is underlined in red, it means that StackBlitz didn't i
 Alternatively, you can manually add it to the existing import line from `'@angular/core'`, like this:
 
 ```typescript
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 ```
 
 Either way, you should end up with a line like that one at the top of the file.
@@ -150,7 +158,7 @@ imports: [CommonModule, HelloComponent],
 If you did it correctly, StackBlitz automatically imported the `HelloComponent` at the top of the file and you'll see this line at the top of the file with the rest of the imports.
 
 ```typescript
-import { HelloComponent } from "./hello/hello.component";
+import { HelloComponent } from './hello/hello.component';
 ```
 
 If that line isn't there, go ahead and click the lightbulb to add it automatically, or manually add it after the other import statements.
@@ -181,7 +189,7 @@ Now the output should look something like that in Figure 2.4. Furthermore, we do
 But what if you have a bunch of names? Change the `name` variable on the component and make it an array called `names`.
 
 ```typescript
-names = ["Mike", "Greg", "Jonathan", "Neil"];
+names = ['Mike', 'Greg', 'Jonathan', 'Neil'];
 ```
 
 The cool thing about reusing components this way is that you do not have to change the `hello` component at all. You simply need to change the calling code to use `ngFor`, an Angular directive used to create multiple instances of the `hello` component based on the number of elements in the referenced array.
@@ -191,7 +199,10 @@ You use an `ngFor` by providing it as an attribute to the element you want repli
 Delete the individual `app-hello` tags, replacing them with a single tag with an `ngFor` expression, like this:
 
 ```html
-<app-hello *ngFor="let name of names" name="{{name}}"></app-hello>
+<app-hello
+  *ngFor="let name of names"
+  name="{{name}}"
+></app-hello>
 ```
 
 The asterisk, which is required, is an indication to Angular that this directive will manipulate the DOM, or the page's document object model, in some way.
@@ -203,7 +214,10 @@ One thing to be aware of when using this type of binding is that the expression 
 There is another binding syntax that works with HTML attributes. If you want to set the value of an attribute to a value on your component, use square brackets around the attribute name. This is also a type of one-way data binding but instead of converting the value to a string, attribute binding will preserve the data type. For example, if we were binding a boolean in the TypeScript code, it will remain a boolean when passed to the HTML element attribute.
 
 ```html
-<app-hello *ngFor="let name of names" [name]="name"></app-hello>
+<app-hello
+  *ngFor="let name of names"
+  [name]="name"
+></app-hello>
 ```
 
 In general, if you're working with values that should maintain their type (like booleans or numbers), you should use property binding. If you're working with string values or you specifically need a string value, interpolation would be appropriate. I'll show you more about that soon.

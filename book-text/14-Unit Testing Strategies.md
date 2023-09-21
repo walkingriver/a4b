@@ -10,15 +10,17 @@ Consider the following scenario. Your app makes calls to a back-end web service 
 
 ```javascript
 function getCustomer(customerId) {
-  return httpService.get("/customers/" + customerId).then(function (response) {
-    if (response.statusCode === 200) {
-      var scrubbed = scrub(response);
-      logger.log(scrubbed);
-      return response;
-    } else {
-      logger.error(response);
-    }
-  });
+  return httpService
+    .get('/customers/' + customerId)
+    .then(function (response) {
+      if (response.statusCode === 200) {
+        var scrubbed = scrub(response);
+        logger.log(scrubbed);
+        return response;
+      } else {
+        logger.error(response);
+      }
+    });
 }
 ```
 
